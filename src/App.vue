@@ -1,32 +1,64 @@
+<!--
+ * @Author: Dongzy
+ * @since: 2020-01-26 11:47:00
+ * @lastTime     : 2020-02-11 20:05:19
+ * @LastAuthor   : Dongzy
+ * @文件相对于项目的路径: \pixivic-pc\src\App.vue
+ * @message: 
+ -->
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <el-container class="page-container">
+      <!-- 左边栏开始 -->
+      <el-aside
+        style="background-color: rgb(238, 241, 246)"
+        width="65px"
+      >
+        <left-side></left-side>
+      </el-aside>
+      <!-- 左边栏结束 -->
+      <el-container>
+        <!-- 标题栏开始 -->
+        <el-header style="border-bottom: 1px solid #bbb;">
+          <header-bar></header-bar>
+        </el-header>
+        <!-- 标题栏结束 -->
+        <!-- 主要页面开始 -->
+        <el-main>
+          <router-view :key="Math.random()"></router-view>
+        </el-main>
+        <!-- 主要页面结束 -->
+      </el-container>
+    </el-container>
   </div>
 </template>
 
-<style>
+<script>
+export default {
+  name: 'app',
+  components: {
+    HeaderBar: () => import('./components/PublicComponents/HeaderBar.vue'),
+    LeftSide: () => import('./components/PublicComponents/LeftSide.vue'),
+  },
+  data() {
+    const item = {
+      date: '2016-05-02',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1518 弄',
+    };
+    return {
+      tableData: Array(20).fill(item),
+    };
+  },
+};
+</script>
+
+<style lang="less">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  .page-container {
+    /deep/ .el-main {
+      padding: 0px;
+    }
+  }
 }
 </style>

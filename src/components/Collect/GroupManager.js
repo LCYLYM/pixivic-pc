@@ -1,4 +1,4 @@
-import SectionManager from './SectionManager';
+import SectionManager from "./SectionManager";
 
 /** Represents a group of logically-related items */
 export default class GroupManager {
@@ -18,7 +18,11 @@ export default class GroupManager {
     let totalWidth = 0;
 
     group.forEach((item, index) => {
-      const cellMetadatum = this._cellSizeAndPositionGetter(item, index, this._groupId);
+      const cellMetadatum = this._cellSizeAndPositionGetter(
+        item,
+        index,
+        this._groupId
+      );
       sectionManager.registerCell({
         index,
         cellMetadatum

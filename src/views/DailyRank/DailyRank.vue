@@ -1,10 +1,10 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-28 23:11:51
- * @lastTime     : 2020-02-11 20:04:55
- * @LastAuthor   : Dongzy
- * @文件相对于项目的路径: \pixivic-pc\src\views\DailyRank.vue
- * @message: 
+ * @lastTime: 2020-03-06 20:18:35
+ * @LastAuthor: Dongzy
+ * @FilePath: \pixiciv-pc\src\views\DailyRank\DailyRank.vue
+ * @message:
  -->
 <template>
   <div class="DailyRank">
@@ -12,7 +12,7 @@
       :identifier="identifier"
       :list="pictureList"
       @infinite="infinite"
-    ></virtual-list>
+    />
     <el-popover
       placement="left"
       style="position:fixed;z-index:9999;right:20px;bottom:20px;"
@@ -21,40 +21,40 @@
     >
       <template>
         <el-radio
-          label="0"
           v-model="modeFather"
+          label="0"
         >综合排行</el-radio>
         <el-radio
-          label="1"
           v-model="modeFather"
+          label="1"
         >漫画排行</el-radio>
       </template>
       <el-radio-group
-        @change="resetData"
+        v-model="mode"
         size="mini"
         style="padding: 20px 0;"
-        v-model="mode"
+        @change="resetData"
       >
         <el-radio-button
+          v-for="radioItem of modeList[modeFather].children"
           :key="radioItem.name"
           :label="radioItem.value"
-          v-for="(radioItem) of modeList[modeFather].children"
-        >{{radioItem.name}}</el-radio-button>
+        >{{ radioItem.name }}</el-radio-button>
       </el-radio-group>
       <el-date-picker
+        v-model="value2"
         :picker-options="pickerOptions"
-        @change="selectDate"
         align="right"
         placeholder="选择日期"
         type="date"
-        v-model="value2"
         value-format="yyyy-MM-dd"
-      ></el-date-picker>
+        @change="selectDate"
+      />
       <el-button
+        slot="reference"
         circle
         icon="el-icon-time"
-        slot="reference"
-      ></el-button>
+      />
     </el-popover>
   </div>
 </template>
@@ -63,6 +63,9 @@
 import dayjs from 'dayjs';
 export default {
   name: 'DailyRank',
+  components: {
+    VirtualList: () => import('@/components/Virtual-List/VirtualList')
+  },
   data() {
     return {
       modeFather: '0',
@@ -74,8 +77,8 @@ export default {
             { name: '周', value: 'week' },
             { name: '月', value: 'month' },
             { name: '女性', value: 'day_female' },
-            { name: '男性', value: 'day_male' },
-          ],
+            { name: '男性', value: 'day_male' }
+          ]
         },
         {
           name: '漫画排行',
@@ -83,9 +86,9 @@ export default {
             { name: '日', value: 'day_manga' },
             { name: '周', value: 'week_manga' },
             { name: '月', value: 'month_manga' },
-            { name: '一周新秀', value: 'week_rookie_manga' },
-          ],
-        },
+            { name: '一周新秀', value: 'week_rookie_manga' }
+          ]
+        }
       ],
       page: 1,
       mode: 'day',
@@ -96,28 +99,30 @@ export default {
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();
-        },
-      },
+        }
+      }
     };
   },
   computed: {},
-  components: {
-    VirtualList: () => import('@/components/Virtual-List/VirtualList'),
-  },
   watch: {},
+  mounted() {
+    this.date = dayjs(new Date())
+      .add(-3, 'days')
+      .format('YYYY-MM-DD');
+  },
   methods: {
     infinite($state) {
       this.$api.rank
         .getRank({
           page: this.page++,
           date: this.date,
-          mode: this.mode,
+          mode: this.mode
         })
         .then(res => {
-          if (!res.data.data.data.length) {
+          if (!res.data.data) {
             $state.complete();
           } else {
-            this.pictureList = this.pictureList.concat(res.data.data.data);
+            this.pictureList = this.pictureList.concat(res.data.data);
             $state.loaded();
           }
         });
@@ -136,13 +141,8 @@ export default {
     },
     selectMode() {
       this.resetData();
-    },
-  },
-  mounted() {
-    this.date = dayjs(new Date())
-      .add(-3, 'days')
-      .format('YYYY-MM-DD');
-  },
+    }
+  }
 };
 </script>
 

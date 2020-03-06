@@ -1,4 +1,12 @@
-import Section from './Section';
+/*
+ * @Author: Dongzy
+ * @since: 2020-02-02 14:59:46
+ * @lastTime: 2020-03-02 10:39:58
+ * @LastAuthor: Dongzy
+ * @FilePath: \pixiciv-pc\src\components\Collect\SectionManager.js
+ * @message:
+ */
+import Section from "./Section";
 
 const SECTION_SIZE = 600;
 
@@ -14,7 +22,9 @@ export default class SectionManager {
     const frozenCellMetadatum = Object.freeze(cellMetadatum);
     this._cellMetadata[index] = frozenCellMetadatum;
 
-    this.getSections(frozenCellMetadatum).forEach(section => section.addCellIndex({ index }));
+    this.getSections(frozenCellMetadatum).forEach(section =>
+      section.addCellIndex({ index })
+    );
   }
 
   freezeCells() {
@@ -56,9 +66,9 @@ export default class SectionManager {
   }
 
   /**
-     * Gets all cell indices contained in the specified region.
-     * A region may encompass 1 or more Sections.
-     */
+   * Gets all cell indices contained in the specified region.
+   * A region may encompass 1 or more Sections.
+   */
   getCellIndices({ height, width, x, y }) {
     const indices = {};
 

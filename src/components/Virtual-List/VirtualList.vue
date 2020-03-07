@@ -6,6 +6,7 @@
       :identifier="identifier"
       :width="width"
       :height="height"
+      :column="column"
       @infinite="infinite"
     >
       <slot />
@@ -24,7 +25,7 @@ import throttle from 'lodash/throttle';
 import Item from './Item';
 import { randomColor, replaceBigImg, replaceSmallImg } from '@/util';
 import { getClient } from '@/util/dom';
-const columnWidth = 200; // 屏幕小于200则1列
+const columnWidth = 252;
 
 export default {
   components: {
@@ -48,7 +49,7 @@ export default {
       scrollY: 0,
       columnHeight: [],
       column: 0,
-      width: getClient().width,
+      width: getClient().width - 65,
       height: getClient().height
     };
   },
@@ -143,14 +144,9 @@ export default {
       }
     },
     waterFall() {
-      this.width = getClient().width;
+      this.width = getClient().width - 65;
       this.height = getClient().height;
-      const column = parseInt(localStorage.getItem('waterfull-column'));
-      if (column) {
-        this.column = column;
-      } else {
-        this.column = Math.ceil(this.width / columnWidth);
-      }
+      this.column = Math.floor(this.width / columnWidth);
       this.columnHeight = new Array(this.column).fill(0);
       this.handleList(this.list);
     },
@@ -159,8 +155,10 @@ export default {
         try {
           const tmp = list[i];
           const per = tmp.height / tmp.width;
-          const width = Math.floor((this.width - 16) / this.column);
-          const height = Math.max(Math.min(width * per, 400), 100);
+          // const width = Math.floor((this.width - 100) / this.column);
+          const width = 252;
+          // const height = Math.max(Math.min(width * per, 400), 100);
+          const height = width * per;
           // 找出最小列
           let minHeight = this.columnHeight[0];
           let index = 0;

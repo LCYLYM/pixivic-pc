@@ -70,18 +70,23 @@ no-wrap()
   width 100%
   height 100%
   padding 8px
+  padding-bottom 16px
   overflow hidden
+  &:hover
+    img
+      transform scale(1.3)
   .item-content
     position relative
     width 100%
     height 100%
-    border-radius 8px
+    border-radius 16px
+    overflow hidden
     img
       width 100%
       height 100%
-      transition opacity .3s
+      transition opacity .3s, transform .3s ease
       object-fit cover
-      border-radius 8px
+      border-radius 16px
     .img-filter
       position absolute
       top 0

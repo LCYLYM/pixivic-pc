@@ -1,78 +1,66 @@
 <style lang="stylus" scoped>
-.vue-virtual-collection {
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
-  margin: 0 auto;
-
-  &::-webkit-scrollbar {
-    background-color: #fff;
-    width: 10px;
-    height: 10px;
-    background-clip: padding-box;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: lightgray;
-  }
-
-  &-container {
-    position: relative;
-    background: #fff;
-  }
-
-  .cell-container {
-    position: absolute;
-    top: 0;
-  }
-
-  .top {
-    position: fixed;
-    bottom: 50px;
-    right: 10px;
-    width: 50px;
-    height: 50px;
-    transform: translateY(100px);
-    transition: all 1s;
-    opacity: 0;
-
-    i {
-      font-size: 25px;
-      color: pink;
-    }
-
-    &.is-active {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-}
+.vue-virtual-collection
+  overflow scroll
+  -webkit-overflow-scrolling touch
+  box-sizing border-box
+  // padding-left 50px
+  // padding-right 50px
+  height 100vh
+  // &::-webkit-scrollbar
+  //   display none /* Chrome Safari */
+  &-container
+    position relative
+    background #fff
+    box-sizing border-box
+    .water-content
+      position relative
+      margin 10px auto
+      .cell-container
+        position absolute
+        top 0
+  .top
+    position fixed
+    bottom 27.5px
+    right 10px
+    width 30px
+    height 30px
+    transform translateY(100px)
+    transition all 1s
+    opacity 0
+    &.is-active
+      transform translateY(0)
+      opacity 1
 </style>
 
 <template>
-  <div :style="outerStyle" @scroll.passive="onScroll" class="vue-virtual-collection" ref="outer">
+  <div
+    ref="outer"
+    class="vue-virtual-collection"
+    :style="outerStyle"
+    @scroll.passive="onScroll"
+  >
     <div class="vue-virtual-collection-container">
       <slot />
-      <div :style="contentStyle" class="water-content" ref="watercontent">
+      <div ref="watercontent" class="water-content" :style="contentStyle">
         <div
-          :key="item.id"
-          :style="getComputedStyle(item)"
-          class="cell-container"
           v-for="item in displayItems"
+          :key="item.id"
+          class="cell-container"
+          :style="getComputedStyle(item)"
         >
-          <slot :data="item" name="cell" />
+          <slot name="cell" :data="item" />
         </div>
       </div>
     </div>
     <div :class="['top', { 'is-active': showTab }]" @click.stop="scrollToTop">
-      <svg aria-hidden="true" class="icon" font-size="30">
+      <svg font-size="30" class="icon" aria-hidden="true">
         <use xlink:href="#picdingbu1" />
       </svg>
     </div>
     <infinite-loading :identifier="identifier" @infinite="infinite">
       <div slot="no-more" />
       <div slot="no-results" style="marginTop: 50px;">
-        <svg aria-hidden="true" class="icon" font-size="160">
+        <svg font-size="160" class="icon" aria-hidden="true">
           <use xlink:href="#pickongtai1" />
         </svg>
         <p style="color: #E3F2FA; font-size: 20px;">没有内容</p>
@@ -82,11 +70,10 @@
 </template>
 
 <script>
-import InfiniteLoading from "vue-infinite-loading";
-import { mapGetters } from "vuex";
-import GroupManager from "./GroupManager";
-import { getClient } from "@/util/dom";
-
+import InfiniteLoading from 'vue-infinite-loading';
+import { mapGetters } from 'vuex';
+import GroupManager from './GroupManager';
+import { getClient } from '@/util/dom';
 export default {
   components: {
     InfiniteLoading
@@ -121,6 +108,10 @@ export default {
     identifier: {
       type: Number,
       default: +new Date()
+    },
+    column: {
+      type: Number,
+      default: 2
     }
   },
   data() {
@@ -128,32 +119,39 @@ export default {
       totalHeight: 0,
       totalWidth: 0,
       displayItems: [],
-      scrollY: 0,
-      contentTop: 0
+      scrollY: 0
     };
   },
   computed: {
-    ...mapGetters(["showTab"]),
+    ...mapGetters([
+      'showTab'
+    ]),
     outerStyle() {
       return {
         // height: this.height + 'px',
-        width: this.width + "px"
+        width: this.width + 'px'
       };
     },
     contentStyle() {
       return {
+        width: 252 * this.column + 'px',
         height: `${this.totalHeight}px`
+      };
+    },
+    dateChange() {
+      return {
+        collection: this.collection,
+        column: this.column
       };
     }
   },
   watch: {
-    collection() {
+    dateChange() {
       // Dispose previous groups and reset associated data
       this.groupManagers.forEach(manager => manager.dispose());
       this.groupManagers = [];
       this.totalHeight = 0;
       this.totalWidth = 0;
-
       this.onCollectionChanged();
     },
     identifier() {
@@ -161,9 +159,6 @@ export default {
     }
   },
   created() {
-    this.$nextTick(() => {
-      this.contentTop = this.$refs.watercontent.offsetTop;
-    });
     this.groupManagers = [];
     this.onCollectionChanged();
   },
@@ -173,12 +168,10 @@ export default {
   methods: {
     onCollectionChanged() {
       let collection = this.collection;
-
       // If the collection is flat, wrap it inside a single group
       if (collection.length > 0 && collection[0].group === undefined) {
         collection = [{ group: collection }];
       }
-
       // Create and store managers for each item group
       collection.forEach((groupContainer, i) => {
         const groupIndex = i; // Capture group index for closure
@@ -187,28 +180,20 @@ export default {
           () => this.onGroupChanged(groupContainer.group, groupIndex),
           { deep: true }
         );
-
-        this.groupManagers.push(
-          new GroupManager(
-            groupContainer.group,
-            groupIndex,
-            this.sectionSize,
-            this.cellSizeAndPositionGetter,
-            unwatch
-          )
-        );
+        this.groupManagers.push(new GroupManager(
+          groupContainer.group,
+          groupIndex,
+          this.sectionSize,
+          this.cellSizeAndPositionGetter,
+          unwatch
+        ));
       });
-
       this.updateGridDimensions();
       this.flushDisplayItems();
     },
     updateGridDimensions() {
-      this.totalHeight = Math.max(
-        ...this.groupManagers.map(it => it.totalHeight)
-      );
-      this.totalWidth = Math.max(
-        ...this.groupManagers.map(it => it.totalWidth)
-      );
+      this.totalHeight = Math.max(...this.groupManagers.map(it => it.totalHeight));
+      this.totalWidth = Math.max(...this.groupManagers.map(it => it.totalWidth));
     },
     onGroupChanged(group, index) {
       this.groupManagers[index].updateGroup(group);
@@ -217,15 +202,12 @@ export default {
     },
     getComputedStyle(displayItem) {
       if (!displayItem) return;
-
       // Currently displayed items may no longer exist
       // if collection has been modified since
       const groupManager = this.groupManagers[displayItem.groupIndex];
       if (!groupManager) return;
-
       const cellMetadatum = groupManager.getCellMetadata(displayItem.itemIndex);
       if (!cellMetadatum) return;
-
       const { width, height, x, y } = cellMetadatum;
       return {
         left: `${x}px`,
@@ -245,28 +227,23 @@ export default {
         scrollTop = this.$refs.outer.scrollTop;
         scrollLeft = this.$refs.outer.scrollLeft;
       }
-
       const displayItems = [];
       this.groupManagers.forEach((groupManager, groupIndex) => {
         var indices = groupManager.getCellIndices({
           height: this.height,
           width: this.width,
           x: scrollLeft,
-          y: scrollTop - this.contentTop
+          y: scrollTop - this.$refs.watercontent.offsetTop
         });
-
         indices.forEach(itemIndex => {
-          displayItems.push(
-            Object.freeze({
-              groupIndex,
-              itemIndex,
-              key: displayItems.length,
-              ...groupManager.getItem(itemIndex)
-            })
-          );
+          displayItems.push(Object.freeze({
+            groupIndex,
+            itemIndex,
+            key: displayItems.length,
+            ...groupManager.getItem(itemIndex)
+          }));
         });
       });
-
       if (window.requestAnimationFrame) {
         window.requestAnimationFrame(() => {
           this.displayItems = displayItems;
@@ -278,19 +255,7 @@ export default {
       }
     },
     infinite($state) {
-      this.$emit("infinite", $state);
-    },
-    swipe(direction) {
-      switch (direction) {
-        case "Up":
-          if (!this.showTab) return;
-          this.$store.dispatch("changeTab", false);
-          break;
-        case "Down":
-          if (this.showTab) return;
-          this.$store.dispatch("changeTab", true);
-          break;
-      }
+      this.$emit('infinite', $state);
     },
     scrollToTop() {
       this.$refs.outer.scrollTop = 0;

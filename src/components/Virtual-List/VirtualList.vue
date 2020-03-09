@@ -33,6 +33,14 @@ export default {
     Item
   },
   props: {
+    listWidth: {
+      type: Number,
+      default: 0
+    },
+    lsitHeight: {
+      type: Number,
+      default: 0
+    },
     list: {
       type: Array,
       default() {
@@ -49,8 +57,8 @@ export default {
       scrollY: 0,
       columnHeight: [],
       column: 0,
-      width: getClient().width - 65,
-      height: getClient().height
+      width: this.listWidth || getClient().width - 65,
+      height: this.lsitHeight || getClient().height
     };
   },
   computed: {
@@ -144,8 +152,8 @@ export default {
       }
     },
     waterFall() {
-      this.width = getClient().width - 65;
-      this.height = getClient().height;
+      this.width = this.listWidth || getClient().width - 65;
+      this.height = this.lsitHeight || getClient().height;
       this.column = Math.floor(this.width / columnWidth);
       this.columnHeight = new Array(this.column).fill(0);
       this.handleList(this.list);
@@ -197,7 +205,8 @@ export default {
 </script>
 
 <style lang="stylus" scope>
-.list
-  position relative
-  background-color #fff
+.list {
+  position: relative;
+  background-color: #fff;
+}
 </style>

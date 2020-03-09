@@ -49,7 +49,8 @@ export function downloadImage(url, cb) {
 let last = 0;
 export function randomColor() {
   last =
-    (last + Math.round(Math.random() * COLOR_LIST.length / 2 + 1)) % COLOR_LIST.length;
+    (last + Math.round((Math.random() * COLOR_LIST.length) / 2 + 1)) %
+    COLOR_LIST.length;
   return COLOR_LIST[last];
 }
 
@@ -80,9 +81,9 @@ export function debounceAsyncValidator(validator, delay) {
 }
 
 export function replaceBigImg(url) {
-  return url.replace('_webp', '').replace('i.pximg.net', 'original.img.cheerfun.dev');
+  return url.replace('_webp', '').replace('i.pximg.net', 'i.pixiv.cat');
 }
 
 export function replaceSmallImg(url) {
-  return url.replace('i.pximg.net', 'img.cheerfun.dev:233');
+  return url.replace('i.pximg.net', 'i.pixiv.cat');
 }

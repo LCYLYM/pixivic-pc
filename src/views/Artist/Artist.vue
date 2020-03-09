@@ -1,31 +1,249 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:29:14
- * @lastTime: 2020-03-06 20:04:56
+ * @lastTime: 2020-03-09 23:53:50
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Artist\Artist.vue
  * @message:
  -->
 <template>
-  <div class="Artist" />
+  <div class="artist">
+    <dir v-if="artistDetail" class="artist_property">
+      <div class="artist-name">
+        <div class="avatar">
+          <img :src="artistDetail.avatar" alt="">
+        </div>
+
+        <div class="name">
+          <h2>{{ artistDetail.name }}</h2>
+        </div>
+        <div style="margin:10px 0">
+          <span style="color: #999;">
+            <em style="font-style:normal;color: #5C5C5C;font-weight: bold;">{{
+              artistDetail.totalFollowUsers
+            }}</em>个关注者</span>
+        </div>
+        <div>
+          <el-button round size="small" type="primary">添加关注</el-button>
+        </div>
+      </div>
+      <div style="margin:10px;text-align:center;disply:flex">
+        <i
+          v-if="artistDetail.webPage"
+          class="el-icon-s-home icon"
+          @click="windowOpen(artistDetail.webPage)"
+        />
+        <i
+          v-if="artistDetail.twitterUrl"
+          class="el-icon-chat-dot-round icon"
+          @click="windowOpen(artistDetail.twitterUrl)"
+        />
+        <span v-if="artistDetail.region">
+          <i class="el-icon-location-outline icon" />
+          <em>{{ artistDetail.region }}</em>
+        </span>
+        <i class="el-icon-share icon" />
+      </div>
+      <div class="comment">
+        {{ artistDetail.comment }}
+      </div>
+    </dir>
+    <div class="artist_illu">
+      <virtual-list
+        :list-width="1200"
+        :list-height="400"
+        :identifier="identifier"
+        :list="pictureList"
+        @infinite="infinite"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { replaceBigImg } from '@/util';
 export default {
   name: 'Artist',
-  components: {},
-  data() {
-    return {};
+  components: {
+    VirtualList: () => import('@/components/Virtual-List/VirtualList')
   },
-  computed: {},
-  watch: {},
-  mounted() {},
-  methods: {}
+  props: {
+    artistId: {
+      required: true,
+      type: [String, Number]
+    }
+  },
+  data() {
+    return {
+      artistDetail: null,
+      page: 1,
+      type: 'illust',
+      identifier: +new Date(),
+      illustSum: 0,
+      mangaSum: 0,
+      pictureList: []
+    };
+  },
+  computed: {
+    ...mapGetters(['user', 'followStatus'])
+  },
+  watch: {
+    followStatus(val) {
+      if (val.artistId === this.artistDetail.id) {
+        this.artistDetail.isFollowed = val.follow;
+      }
+    }
+  },
+  mounted() {
+    this.getArtistInfo();
+    this.getSummary();
+  },
+  methods: {
+    windowOpen(url) {
+      window.open(url);
+    },
+    // 取画家信息
+    getArtistInfo() {
+      this.$api.detail.reqArtist(this.artistId).then(res => {
+        const {
+          data: { data }
+        } = res;
+        this.artistDetail = {
+          ...data,
+          avatarSrc: replaceBigImg(data.avatar)
+        };
+      });
+    },
+    getSummary() {
+      this.$api.detail.reqSummary(this.artistId).then(res => {
+        const {
+          data: { data }
+        } = res;
+        for (const item of data) {
+          if (item.type === 'illust') {
+            this.illustSum = item.sum;
+          } else if (item.type === 'manga') {
+            this.mangaSum = item.sum;
+          }
+        }
+      });
+    },
+    handleClick() {
+      this.$router.back();
+    },
+    infinite($state) {
+      this.$api.detail
+        .reqArtistIllust({
+          page: this.page++,
+          artistId: this.artistId,
+          type: this.type
+        })
+        .then(res => {
+          if (res.data.data) {
+            const {
+              data: { data }
+            } = res;
+            this.pictureList = this.pictureList.concat(data);
+            $state.loaded();
+          } else {
+            $state.complete();
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    getList(type) {
+      this.type = type;
+      this.page = 1;
+      this.pictureList = [];
+      this.identifier += 1;
+    },
+    follow() {
+      if (!this.user.id) {
+        this.$router.push({
+          name: 'Login',
+          query: {
+            return_to: window.location.href
+          }
+        });
+        return;
+      }
+      const data = {
+        artistId: this.artistDetail.id,
+        userId: this.user.id
+      };
+      if (!this.artistDetail.isFollowed) {
+        this.artistDetail.isFollowed = true;
+        this.$store
+          .dispatch('handleFollowArtist', { ...data, follow: true })
+          .then(res => {})
+          .catch(() => {
+            this.artistDetail.isFollowed = false;
+            this.$message.destroyed();
+            this.$message.error('关注失败');
+          });
+      } else {
+        this.artistDetail.isFollowed = false;
+        this.$store
+          .dispatch('handleFollowArtist', { ...data, follow: false })
+          .then(res => {})
+          .catch(() => {
+            this.artistDetail.isFollowed = true;
+            this.$message.destroyed();
+            this.$message.error('取消关注失败');
+          });
+      }
+    }
+  }
 };
 </script>
 
 <style scoped lang="less">
-.Artist {
-    display: flex;
+.artist {
+  .artist_property {
+    margin: 0 auto;
+    width: 810px;
+    padding-top: 60px;
+    .artist-name {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      .avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 150px;
+        display: inline-block;
+        position: relative;
+        border: 5px solid #fff;
+        box-shadow: 0px 2px 3px #999;
+        transition: all 0.2s ease-in-out 0s;
+        img {
+          width: 150px;
+          height: 150px;
+          border-radius: 150px;
+        }
+      }
+      .name {
+        display: flex;
+      }
+    }
+  }
+  .artist_illu {
+    display: block;
+    padding-top: 36px;
+    padding-bottom: 64px;
+    max-width: 1224px;
+    margin: 0px auto;
+  }
+  .icon {
+    font-size: 30px;
+    height: 36px;
+    width: 36px;
+    color: #5e6d82;
+    cursor: pointer;
+  }
 }
 </style>

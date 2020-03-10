@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-03-09 10:17:18
+ * @lastTime: 2020-03-10 22:10:57
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -18,6 +18,7 @@
             :src="illustDetail.mediumSrc"
             fit="contain"
             style="width:100%;height:80vh;"
+            :preview-src-list="srcList"
           />
         </figure>
         <div class="detail-content__action">
@@ -88,6 +89,7 @@
 
 <script>
 import { IMG_PREFIX } from '@/util/constants';
+import { replaceBigImg, replaceSmallImg } from '@/util';
 import dayjs from 'dayjs';
 export default {
   name: 'Detail',
@@ -100,6 +102,7 @@ export default {
   },
   data() {
     return {
+      srcList: [],
       illustDetail: null,
       imageList: [],
       isLiked: false,
@@ -136,13 +139,14 @@ export default {
         this.illustDetail = {
           ...data,
           itemHeight: parseInt((data.height / data.width) * document.body.clientWidth),
-          src: IMG_PREFIX + data.imageUrls[0].original.replace('_webp', ''),
-          avatarSrc: IMG_PREFIX + data.artistPreView.avatar,
-          mediumSrc: IMG_PREFIX + data.imageUrls[0].medium,
+          src: IMG_PREFIX + replaceBigImg(data.imageUrls[0].original),
+          avatarSrc: IMG_PREFIX + replaceSmallImg(data.artistPreView.avatar),
+          mediumSrc: IMG_PREFIX + replaceSmallImg(data.imageUrls[0].medium),
           createDate: dayjs(data.createDate).format('YYYY-MM-DD HH:mm:ss'),
           setu:
 						!!(data.xrestrict === 1 || data.sanityLevel > 6) && this.user.username !== 'pixivic'
         };
+        this.srcList = data.imageUrls.map(e => IMG_PREFIX + replaceBigImg(e.original));
         this.getArtistIllust();
       });
     },
@@ -160,8 +164,7 @@ export default {
               data: { data }
             } = res;
             this.pictureList = this.pictureList.concat(data);
-            console.log(this.pictureList, '*************');
-            this.urls = this.pictureList.map(item => IMG_PREFIX + item.imageUrls[0].squareMedium);
+            this.urls = this.pictureList.map(item => IMG_PREFIX + replaceSmallImg(item.imageUrls[0].squareMedium));
           }
         })
         .catch(err => {

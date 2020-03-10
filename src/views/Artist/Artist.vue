@@ -1,17 +1,27 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:29:14
- * @lastTime: 2020-03-09 23:53:50
+ * @lastTime: 2020-03-10 21:33:33
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Artist\Artist.vue
  * @message:
  -->
 <template>
   <div class="artist">
-    <dir v-if="artistDetail" class="artist_property">
+    <virtual-list
+      :identifier="identifier"
+      :list="pictureList"
+      @infinite="infinite"
+    ><dir
+      v-if="artistDetail"
+      class="artist_property"
+    >
       <div class="artist-name">
         <div class="avatar">
-          <img :src="artistDetail.avatar" alt="">
+          <img
+            :src="artistDetail.avatarSrc"
+            alt
+          >
         </div>
 
         <div class="name">
@@ -19,12 +29,19 @@
         </div>
         <div style="margin:10px 0">
           <span style="color: #999;">
-            <em style="font-style:normal;color: #5C5C5C;font-weight: bold;">{{
-              artistDetail.totalFollowUsers
-            }}</em>个关注者</span>
+            <em style="font-style:normal;color: #5C5C5C;font-weight: bold;">
+              {{
+                artistDetail.totalFollowUsers
+              }}
+            </em>个关注者
+          </span>
         </div>
         <div>
-          <el-button round size="small" type="primary">添加关注</el-button>
+          <el-button
+            round
+            size="small"
+            type="primary"
+          >添加关注</el-button>
         </div>
       </div>
       <div style="margin:10px;text-align:center;disply:flex">
@@ -44,19 +61,9 @@
         </span>
         <i class="el-icon-share icon" />
       </div>
-      <div class="comment">
-        {{ artistDetail.comment }}
-      </div>
+      <div class="comment">{{ artistDetail.comment }}</div>
     </dir>
-    <div class="artist_illu">
-      <virtual-list
-        :list-width="1200"
-        :list-height="400"
-        :identifier="identifier"
-        :list="pictureList"
-        @infinite="infinite"
-      />
-    </div>
+    </virtual-list>
   </div>
 </template>
 
@@ -202,6 +209,8 @@ export default {
 
 <style scoped lang="less">
 .artist {
+  height: calc(~'100vh - 60px');
+  overflow: hidden;
   .artist_property {
     margin: 0 auto;
     width: 810px;

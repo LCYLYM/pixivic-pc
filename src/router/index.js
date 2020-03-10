@@ -1,7 +1,7 @@
 /*
  * @Author: Dongzy
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-03-06 21:54:41
+ * @lastTime: 2020-03-11 00:34:25
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\router\index.js
  * @message:
@@ -64,6 +64,11 @@ const routes = [
     path: '/remark',
     name: 'Remark',
     component: () => import('../views/Remark/Remark.vue')
+  },
+  {
+    path: '/bbs',
+    name: 'BBS',
+    component: () => import('../views/BBS/BBS.vue')
   }
 ];
 

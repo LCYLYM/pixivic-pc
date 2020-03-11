@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:30:17
- * @lastTime: 2020-03-11 21:33:40
+ * @lastTime: 2020-03-11 23:32:06
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Donate\Donate.vue
  * @message:
@@ -41,8 +41,8 @@ export default {
 
 <style scoped lang="less">
 .Donate {
-    height: calc(~'100vh - 60wpx');
-    width: calc(~'100vw-65px');
+    height: calc(~'100vh - 60px');
+    width: calc(~'100vw - 65px');
     overflow: auto;
     background: #f5f5f5;
     display: flex;

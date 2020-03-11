@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-03-10 22:10:57
+ * @lastTime: 2020-03-11 21:32:07
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -205,7 +205,7 @@ export default {
 }
 .detail {
 	height: calc(~'100vh - 60px');
-	width: calc(~'100vh-65px');
+	width: calc(~'100vw-65px');
 	overflow: auto;
 	display: flex;
 	background: #f5f5f5;

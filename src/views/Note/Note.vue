@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 20:20:39
- * @lastTime: 2020-03-11 00:27:42
+ * @lastTime: 2020-03-11 21:37:28
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Note\Note.vue
  * @message:
@@ -14,7 +14,7 @@
           <el-collapse-item
             v-for="(item, index) in noteInfo"
             :key="item.title"
-            name="1"
+            :name="index"
           >
             <template slot="title">
               <span
@@ -25,7 +25,7 @@
               <li v-for="e in item.content" :key="e">{{ e }}</li>
             </ul>
           </el-collapse-item>
-          <el-collapse-item name="6">
+          <el-collapse-item :name="6">
             <template slot="title">
               <span
                 class="title"
@@ -49,7 +49,7 @@ export default {
   components: {},
   data() {
     return {
-      activeNames: ['1', '2', '3', '4', '5', '6'],
+      activeNames: [0, 1, 2, 3, 4, 5, 6],
       // 相关信息
       noteInfo: [
         {

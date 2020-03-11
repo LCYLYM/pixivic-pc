@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-03-11 00:30:09
- * @lastTime: 2020-03-11 00:39:36
+ * @lastTime: 2020-03-11 22:37:44
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\BBS\BBS.vue
  * @message:
@@ -25,7 +25,7 @@ export default {
 <style scoped lang="less">
 .bbs {
   height: calc(~"100vh - 60px");
-  width: calc(~"100vh-65px");
+  width: calc(~"100vw-65px");
   overflow: auto;
   background: #f5f5f5;
   display: flex;

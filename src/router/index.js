@@ -1,7 +1,7 @@
 /*
  * @Author: Dongzy
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-03-11 00:34:25
+ * @lastTime: 2020-03-12 23:04:12
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\router\index.js
  * @message:
@@ -10,21 +10,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
-
 const routes = [
   {
     path: '/',
     name: 'home',
     component: () => import('../views/DailyRank/DailyRank.vue')
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
     path: '/tag/:keyword',

@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-28 23:11:51
- * @lastTime: 2020-03-06 20:18:35
+ * @lastTime: 2020-03-12 23:41:06
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\DailyRank\DailyRank.vue
  * @message:
@@ -12,50 +12,45 @@
       :identifier="identifier"
       :list="pictureList"
       @infinite="infinite"
-    />
-    <el-popover
-      placement="left"
-      style="position:fixed;z-index:9999;right:20px;bottom:20px;"
-      trigger="hover"
-      width="240"
     >
-      <template>
-        <el-radio
-          v-model="modeFather"
-          label="0"
-        >综合排行</el-radio>
-        <el-radio
-          v-model="modeFather"
-          label="1"
-        >漫画排行</el-radio>
-      </template>
-      <el-radio-group
-        v-model="mode"
-        size="mini"
-        style="padding: 20px 0;"
-        @change="resetData"
+      <el-popover
+        placement="left"
+        style="position:fixed;z-index:9999;right:40px;bottom:20px;"
+        trigger="hover"
+        width="240"
       >
-        <el-radio-button
-          v-for="radioItem of modeList[modeFather].children"
-          :key="radioItem.name"
-          :label="radioItem.value"
-        >{{ radioItem.name }}</el-radio-button>
-      </el-radio-group>
-      <el-date-picker
-        v-model="value2"
-        :picker-options="pickerOptions"
-        align="right"
-        placeholder="选择日期"
-        type="date"
-        value-format="yyyy-MM-dd"
-        @change="selectDate"
-      />
-      <el-button
-        slot="reference"
-        circle
-        icon="el-icon-time"
-      />
-    </el-popover>
+        <template>
+          <el-radio v-model="modeFather" label="0">综合排行</el-radio>
+          <el-radio v-model="modeFather" label="1">漫画排行</el-radio>
+        </template>
+        <el-radio-group
+          v-model="mode"
+          size="mini"
+          style="padding: 20px 0;"
+          @change="resetData"
+        >
+          <el-radio-button
+            v-for="radioItem of modeList[modeFather].children"
+            :key="radioItem.name"
+            :label="radioItem.value"
+          >{{ radioItem.name }}</el-radio-button>
+        </el-radio-group>
+        <el-date-picker
+          v-model="value2"
+          :picker-options="pickerOptions"
+          align="right"
+          placeholder="选择日期"
+          type="date"
+          value-format="yyyy-MM-dd"
+          @change="selectDate"
+        />
+        <div slot="reference">
+          <img
+            style="height:60px;width:60px;"
+            src="@/assets/images/cat.png"
+            alt="点位调整"
+          >
+        </div> </el-popover></virtual-list>
   </div>
 </template>
 
@@ -109,6 +104,7 @@ export default {
     this.date = dayjs(new Date())
       .add(-3, 'days')
       .format('YYYY-MM-DD');
+    localStorage.setItem('waterfull-column', 4);
   },
   methods: {
     infinite($state) {
@@ -148,9 +144,9 @@ export default {
 
 <style scoped lang="less">
 .DailyRank {
-  height: calc(~'100vh - 60px');
+  height: calc(~"100vh - 60px");
   overflow-y: hidden;
-  width: calc(~'100%');
+  width: calc(~"100%");
   display: flex;
   justify-content: center;
 }

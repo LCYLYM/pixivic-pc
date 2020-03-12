@@ -1,3 +1,11 @@
+/*
+ * @Author: Dongzy
+ * @since: 2020-02-02 14:59:46
+ * @lastTime: 2020-03-12 21:13:10
+ * @LastAuthor: Dongzy
+ * @文件相对于项目的路径: \pixiciv-pc\src\store\mutations.js
+ * @message:
+ */
 import * as types from './mutation-types';
 
 const mutations = {
@@ -28,6 +36,9 @@ const mutations = {
   },
   [types.SET_FOLLOW_STATUS](state, data) {
     state.followStatus = data;
+  },
+  [types.SET_DETAIL](state, data) {
+    state.detail = data;
   }
 };
 

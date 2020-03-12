@@ -1,3 +1,11 @@
+/*
+ * @Author: Dongzy
+ * @since: 2020-02-02 14:59:46
+ * @lastTime: 2020-03-12 21:09:14
+ * @LastAuthor: Dongzy
+ * @文件相对于项目的路径: \pixiciv-pc\src\store\actions.js
+ * @message:
+ */
 import * as types from './mutation-types';
 import { collectIllust, deleteCollect, followArtist } from '@/api/modules/user';
 
@@ -31,7 +39,7 @@ export const handleCollectIllust = ({ commit }, data) => {
         if (res.status === 200) {
           const status = {
             illustId: data.illustId,
-            like: true,
+            like: true
           };
           commit(types.SET_LIKE_STATUS, status);
           resolve();
@@ -53,7 +61,7 @@ export const deleteCollectIllust = ({ commit }, data) => {
         if (res.status === 200) {
           const status = {
             illustId: data.illustId,
-            like: false,
+            like: false
           };
           commit(types.SET_LIKE_STATUS, status);
           resolve();
@@ -75,7 +83,7 @@ export const handleFollowArtist = ({ commit }, data) => {
         if (res.status === 200) {
           const status = {
             artistId: data.artistId,
-            follow: data.follow,
+            follow: data.follow
           };
           commit(types.SET_FOLLOW_STATUS, status);
           resolve();
@@ -87,4 +95,9 @@ export const handleFollowArtist = ({ commit }, data) => {
         reject(err);
       });
   });
+};
+export const setDetail = ({
+  commit
+}, data) => {
+  commit(types.SET_DETAIL, data);
 };

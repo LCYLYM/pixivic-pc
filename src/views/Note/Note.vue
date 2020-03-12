@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 20:20:39
- * @lastTime: 2020-03-11 21:37:28
+ * @lastTime: 2020-03-12 23:41:20
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Note\Note.vue
  * @message:
@@ -17,9 +17,7 @@
             :name="index"
           >
             <template slot="title">
-              <span
-                class="title"
-              >{{ item.title }}</span>
+              <span class="title">{{ item.title }}</span>
             </template>
             <ul class="list">
               <li v-for="e in item.content" :key="e">{{ e }}</li>
@@ -27,12 +25,16 @@
           </el-collapse-item>
           <el-collapse-item :name="6">
             <template slot="title">
-              <span
-                class="title"
-              >开发人员</span>
+              <span class="title">开发人员</span>
             </template>
             <div class="devs">
-              <a v-for="dev of devsInfo" :key="dev.herf" style="cursor: pointer;margin-right:20px;" :href="dev.href" target="_Blank">
+              <a
+                v-for="dev of devsInfo"
+                :key="dev.herf"
+                style="cursor: pointer;margin-right:20px;"
+                :href="dev.href"
+                target="_Blank"
+              >
                 <el-avatar shape="square" size="medium" :src="dev.src" />
               </a>
             </div>
@@ -95,11 +97,28 @@ export default {
         }
       ],
       // 开发人员
-      devsInfo: [{ href: 'https://www.oysterqaq.com/', src: require('@/assets/images/OysterQAQ.jpg') },
-        { href: 'https://github.com/kimliy', src: require('@/assets/images/kimliy.jpg') },
-        { href: 'https://www.ariussss.com/', src: require('@/assets/images/Arius.jpg') },
-        { href: 'https://dongzheyu.github.io/', src: require('@/assets/images/tiger.jpg') },
-        { href: 'https://github.com/goblinM', src: require('@/assets/images/mmx.jpg') }]
+      devsInfo: [
+        {
+          href: 'https://www.oysterqaq.com/',
+          src: require('@/assets/images/OysterQAQ.jpg')
+        },
+        {
+          href: 'https://github.com/kimliy',
+          src: require('@/assets/images/kimliy.jpg')
+        },
+        {
+          href: 'https://www.ariussss.com/',
+          src: require('@/assets/images/Arius.jpg')
+        },
+        {
+          href: 'https://dongzheyu.github.io/',
+          src: require('@/assets/images/tiger.jpg')
+        },
+        {
+          href: 'https://github.com/goblinM',
+          src: require('@/assets/images/mmx.jpg')
+        }
+      ]
     };
   },
   computed: {},
@@ -115,9 +134,9 @@ export default {
 
 <style scoped lang="less">
 .note {
-  height: calc(~'100vh - 60px');
-	width: calc(~'100vh-65px');
-	overflow: auto;
+  height: calc(~"100vh - 60px");
+  width: calc(~"100vw - 65px");
+  overflow: auto;
   background: #f5f5f5;
   .content-list {
     width: 50%;
@@ -126,14 +145,14 @@ export default {
       font-size: 14px;
       margin-bottom: 10px;
     }
-    .title{
+    .title {
       font-size: 22px;
       font-weight: 400;
       color: #1f2d3d;
     }
     .devs {
-display: flex;
-  }
+      display: flex;
+    }
   }
 }
 </style>

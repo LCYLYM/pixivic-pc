@@ -1,17 +1,20 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-03-11 00:30:09
- * @lastTime: 2020-03-11 22:37:44
+ * @lastTime: 2020-03-13 20:17:09
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\BBS\BBS.vue
  * @message:
  -->
 <template>
   <div class="bbs">
-    <div>
-      <a href="https://discuss.pixivic.com/" target="_Blank">
+    <div class="iframe">
+      <iframe src="https://discuss.pixivic.com/" width="100%" height="100%" frameborder="0">
+        您的浏览器不支持iframe，请升级
+      </iframe>
+      <!-- <a href="https://discuss.pixivic.com/" target="_Blank">
         <el-button round size="small" type="primary">点击跳转</el-button>
-      </a>
+      </a> -->
     </div>
   </div>
 </template>
@@ -31,5 +34,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  .iframe{
+    height: 100%;
+    width: 100%;
+  }
 }
 </style>

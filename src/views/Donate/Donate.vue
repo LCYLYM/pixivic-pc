@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:30:17
- * @lastTime: 2020-03-11 23:32:06
+ * @lastTime: 2020-03-13 20:32:02
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Donate\Donate.vue
  * @message:
@@ -9,14 +9,18 @@
 <template>
   <div class="Donate">
     <el-card class="donate-card">
-      <h3>支付宝</h3>
+      <div slot="header">
+        <span>微信</span>
+      </div>
       <img
         alt="支付宝"
         src="@/assets/images/alipay.jpg"
       >
     </el-card>
     <el-card class="donate-card">
-      <h3>微信</h3>
+      <div slot="header">
+        <span>支付宝</span>
+      </div>
       <img
         alt="微信"
         src="@/assets/images/wechat.jpg"
@@ -47,10 +51,9 @@ export default {
     background: #f5f5f5;
     display: flex;
     .donate-card {
-        height: 480px;
-        width: 400px;
-        padding: 0 40px;
-        margin: 100px auto;
+        height: 300px;
+        width: 200px;
+        margin: 80px auto;
         img {
             max-width: 100%;
             max-height: 100%;

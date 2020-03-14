@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:30:03
- * @lastTime: 2020-03-12 23:37:12
+ * @lastTime: 2020-03-13 20:01:32
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Remark\Remark.vue
  * @message:
@@ -9,11 +9,10 @@
 <template>
   <div class="Remark">
     <el-card class="friend-card">
-      <div slot="header" class="clearfix">
+      <div slot="header">
         <span>友链</span>
-        <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
       </div>
-      <div v-for="e in friendLinkList" :key="e.href" class="item">
+      <div v-for="e in friendLinkList" :key="e.href" class="card-item">
         <a class="text title" :href="e.href" target="_blank">{{ e.title }}</a>
         <span class="desc">{{ e.desc }}</span>
       </div>
@@ -87,17 +86,9 @@ export default {
       font-size: 12px;
       margin-left: auto;
     }
-    .item {
+    .card-item {
       margin-bottom: 18px;
       display: flex;
-    }
-    .clearfix:before,
-    .clearfix:after {
-      display: table;
-      content: "";
-    }
-    .clearfix:after {
-      clear: both;
     }
   }
 }

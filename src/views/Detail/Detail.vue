@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-03-12 22:40:44
+ * @lastTime: 2020-03-13 20:10:57
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -16,7 +16,11 @@
             :src="illustDetail.mediumSrc"
             fit="contain"
             style="width:100%;height:80vh;"
-          />
+          >
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline" />
+            </div>
+          </el-image>
         </figure>
         <div class="detail-content__action">
           <div
@@ -71,7 +75,11 @@
             :src="url"
             class="small-img"
             lazy
-          />
+          >
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline" />
+            </div>
+          </el-image>
         </section>
       </aside>
     </div>
@@ -323,5 +331,14 @@ export default {
       }
     }
   }
+}
+/deep/.image-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #f5f7fa;
+  color: #909399;
 }
 </style>

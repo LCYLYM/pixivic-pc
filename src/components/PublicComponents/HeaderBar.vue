@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-24 22:48:37
- * @lastTime: 2020-03-12 23:39:39
+ * @lastTime: 2020-03-13 20:58:58
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\HeaderBar.vue
  * @message:
@@ -9,18 +9,17 @@
 <template>
   <div class="HeaderBar">
     <el-row
-      :gutter="20"
       align="middle"
       justify="space-around"
       style="width:100%;"
       type="flex"
     >
-      <el-col :span="6">
-        <a href style="margin:10px 40px;;">
-          <img alt src="@/assets/images/icon.svg" style="height:70px;">
+      <el-col>
+        <a href>
+          <img alt src="@/assets/images/icon.svg">
         </a>
       </el-col>
-      <el-col :span="10">
+      <el-col>
         <el-autocomplete
           v-model="params.keyword"
           :debounce="300"
@@ -44,14 +43,11 @@
           </el-select>
         </el-autocomplete>
       </el-col>
-      <el-col :span="8" class="header-info">
-        <el-button
-          circle
-          icon="el-icon-message-solid"
-          style="margin-right:20px;"
-          type="info"
-        />
-        <el-avatar :src="squareUrl" shape="square" />
+      <el-col class="header-info">
+        <el-badge :value="3">
+          <el-button size="small">消息</el-button>
+        </el-badge>
+        <el-avatar style="margin-left:20px;" :src="squareUrl" shape="square" />
       </el-col>
     </el-row>
   </div>
@@ -138,19 +134,8 @@ export default {
     width: 80px;
   }
   /deep/.input-with-select {
-    width: 400px;
+    width: 25vw;
     background-color: #fff;
-    // .el-input__inner {
-    //   background-color: rgba(0, 0, 0, 0.04);
-    //   transition: background-color 0.2s, color 0.2s;
-    //   transition-property: background-color, color;
-    //   transition-duration: 0.2s, 0.2s;
-    //   transition-timing-function: ease, ease;
-    //   transition-delay: 0s, 0s;
-    // }
-    // .el-input__inner:hover {
-    //   background-color: rgba(0, 0, 0, 0.08);
-    // }
   }
 
   .input-with-select:hover {

@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 20:20:39
- * @lastTime: 2020-03-12 23:41:20
+ * @lastTime: 2020-03-15 14:03:39
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Note\Note.vue
  * @message:
@@ -134,7 +134,8 @@ export default {
 
 <style scoped lang="less">
 .note {
-  height: calc(~"100vh - 60px");
+  min-height: calc(~"100vh - 60px");
+  max-height:calc(~"100vh - 60px");
   width: calc(~"100vw - 65px");
   overflow: auto;
   background: #f5f5f5;

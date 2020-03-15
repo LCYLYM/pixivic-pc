@@ -137,7 +137,7 @@ export default {
           .then(() => {})
           .catch(() => {
             this.$set(item, 'isLiked', false); // 失败的话在改回去
-            this.$message.destroyed();
+            this.$message.close();;
             this.$message.error('收藏失败');
           });
       } else {
@@ -146,7 +146,7 @@ export default {
           .then(() => {})
           .catch(() => {
             this.$set(item, 'isLiked', true);
-            this.$message.destroyed();
+            this.$message.close();;
             this.$message.error('取消收藏失败');
           });
       }

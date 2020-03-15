@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-28 23:11:51
- * @lastTime: 2020-03-12 23:41:06
+ * @lastTime: 2020-03-15 14:00:49
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\DailyRank\DailyRank.vue
  * @message:
@@ -15,7 +15,7 @@
     >
       <el-popover
         placement="left"
-        style="position:fixed;z-index:9999;right:40px;bottom:20px;"
+        style="position:fixed;z-index:999;right:40px;bottom:20px;"
         trigger="hover"
         width="240"
       >

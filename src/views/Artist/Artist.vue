@@ -188,7 +188,7 @@ export default {
           .then(res => {})
           .catch(() => {
             this.artistDetail.isFollowed = false;
-            this.$message.destroyed();
+            this.$message.close();;
             this.$message.error('关注失败');
           });
       } else {
@@ -198,7 +198,7 @@ export default {
           .then(res => {})
           .catch(() => {
             this.artistDetail.isFollowed = true;
-            this.$message.destroyed();
+            this.$message.close();;
             this.$message.error('取消关注失败');
           });
       }

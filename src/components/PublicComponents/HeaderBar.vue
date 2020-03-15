@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-24 22:48:37
- * @lastTime: 2020-03-13 20:58:58
+ * @lastTime: 2020-03-15 23:15:10
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\HeaderBar.vue
  * @message:
@@ -47,18 +47,37 @@
         <el-badge :value="3">
           <el-button size="small">消息</el-button>
         </el-badge>
-        <el-avatar style="margin-left:20px;" :src="squareUrl" shape="square" />
+        <div style="margin-left:20px;" @click="userOpen">
+          <el-popover
+            v-model="userToolVisible"
+            placement="bottom"
+            title="用户中心"
+            width="200"
+            trigger="manual"
+          >
+            <div class="user-tools">
+              <el-button>个人中心</el-button>
+              <el-button>推荐画师</el-button>
+              <el-button>我的收藏</el-button>
+              <el-button type="warning" @click="logout">退出登录</el-button>
+            </div>
+            <el-avatar slot="reference" :src="squareUrl" shape="square" /></el-popover>
+        </div>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import cookieTool from 'js-cookie';
 export default {
   name: 'HeaderBar',
   components: {},
   data() {
     return {
+      // 用户中心显示
+      userToolVisible: false,
+      // 搜索时延
       timeout: null,
       params: {
         keyword: '',
@@ -91,6 +110,13 @@ export default {
   },
   mounted() {},
   methods: {
+    // 退出登录
+    logout() {
+      cookieTool.remove('jwt');
+      localStorage.removeItem('user');
+      window.location.href = '/';
+    },
+    // 获取关键词
     getKeywords() {
       this.$api.search
         .getKeyword(this.params.keyword)
@@ -98,6 +124,7 @@ export default {
           this.keywords = data.keywordList || [];
         });
     },
+    // 搜索相关信息
     querySearch(queryString, cb) {
       const result = this.keywords.map(e => {
         return { value: e };
@@ -107,9 +134,11 @@ export default {
         cb(result);
       }, 1000);
     },
+    // 选择
     handleSelect(e) {
       this.handleSearch();
     },
+    // 搜索跳转
     handleSearch() {
       const keyword = this.params.keyword;
       this.$router.push({
@@ -118,6 +147,18 @@ export default {
           illustType: this.params.illustType
         }
       });
+    },
+    // 打卡用户系统
+    userOpen() {
+      if (!cookieTool.get('jwt')) {
+        this.$store.dispatch('setLoginBoolean');
+      } else {
+        this.turnUserTab();
+      }
+    },
+    // 用户看板控制
+    turnUserTab() {
+      this.userToolVisible = !this.userToolVisible;
     }
   }
 };
@@ -146,5 +187,12 @@ export default {
     justify-content: flex-end;
     align-items: center;
   }
+
 }
+ .user-tools{
+    display: flex;
+width: 200px;
+flex-wrap:wrap;
+
+  }
 </style>

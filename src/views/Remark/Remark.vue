@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:30:03
- * @lastTime: 2020-03-13 20:01:32
+ * @lastTime: 2020-03-15 14:00:20
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Remark\Remark.vue
  * @message:
@@ -64,7 +64,7 @@ export default {
 
 <style scoped lang="less">
 .Remark {
-  height: calc(~"100vh - 60px");
+  min-height: calc(~"100vh - 60px");
   width: calc(~"100vw - 65px");
   overflow: auto;
   background: #f5f5f5;

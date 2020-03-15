@@ -1,9 +1,9 @@
 /*
  * @Author: Dongzy
  * @since: 2020-02-02 14:59:46
- * @lastTime: 2020-03-12 21:13:10
+ * @lastTime: 2020-03-14 11:39:52
  * @LastAuthor: Dongzy
- * @文件相对于项目的路径: \pixiciv-pc\src\store\mutations.js
+ * @FilePath: \pixiciv-pc\src\store\mutations.js
  * @message:
  */
 import * as types from './mutation-types';
@@ -39,6 +39,9 @@ const mutations = {
   },
   [types.SET_DETAIL](state, data) {
     state.detail = data;
+  },
+  [types.SET_Login_Boolean](state) {
+    state.loginBoolean = !state.loginBoolean;
   }
 };
 

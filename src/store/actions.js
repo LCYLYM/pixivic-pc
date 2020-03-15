@@ -1,9 +1,9 @@
 /*
  * @Author: Dongzy
  * @since: 2020-02-02 14:59:46
- * @lastTime: 2020-03-12 21:09:14
+ * @lastTime: 2020-03-14 23:24:37
  * @LastAuthor: Dongzy
- * @文件相对于项目的路径: \pixiciv-pc\src\store\actions.js
+ * @FilePath: \pixiciv-pc\src\store\actions.js
  * @message:
  */
 import * as types from './mutation-types';
@@ -96,8 +96,9 @@ export const handleFollowArtist = ({ commit }, data) => {
       });
   });
 };
-export const setDetail = ({
-  commit
-}, data) => {
+export const setDetail = ({ commit }, data) => {
   commit(types.SET_DETAIL, data);
+};
+export const setLoginBoolean = ({ commit }) => {
+  commit(types.SET_Login_Boolean);
 };

@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-03-11 00:30:09
- * @lastTime: 2020-03-13 20:17:09
+ * @lastTime: 2020-03-15 14:04:36
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\BBS\BBS.vue
  * @message:
@@ -32,8 +32,7 @@ export default {
   overflow: auto;
   background: #f5f5f5;
   display: flex;
-  justify-content: center;
-  align-items: center;
+
   .iframe{
     height: 100%;
     width: 100%;

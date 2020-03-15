@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-03-12 21:45:47
+ * @lastTime: 2020-03-14 11:06:54
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\App.vue
  * @message:
@@ -30,6 +30,7 @@
         <!-- 主要页面结束 -->
       </el-container>
     </el-container>
+    <Login />
   </div>
 </template>
 
@@ -38,7 +39,8 @@ export default {
   name: 'App',
   components: {
     HeaderBar: () => import('./components/PublicComponents/HeaderBar.vue'),
-    LeftSide: () => import('./components/PublicComponents/LeftSide.vue')
+    LeftSide: () => import('./components/PublicComponents/LeftSide.vue'),
+    Login: () => import('./components/PublicComponents/Login/index.vue')
   },
   data() {
     return {

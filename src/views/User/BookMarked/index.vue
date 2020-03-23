@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-03-23 23:15:20
- * @lastTime: 2020-03-24 00:37:48
+ * @lastTime: 2020-03-24 01:18:26
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\User\BookMarked\index.vue
  * @message:
@@ -16,7 +16,7 @@
           :identifier="identifier"
           @infinite="infinite"
         >
-          <div class="bookmarked-tabs">
+          <div class="bookmarked-tabs" @change="getList">
             <el-radio-group v-model="requestType">
               <el-radio-button label="illust" name="插画" />
               <el-radio-button label="manga" name="漫画" />
@@ -63,13 +63,9 @@ export default {
           }
         });
     },
-    getList(type) {
-      this.type = type;
+    getList() {
       this.page = 1;
-      this.pictureList = [];
-      this.identifier += 1;
     }
-
   }
 };
 </script>

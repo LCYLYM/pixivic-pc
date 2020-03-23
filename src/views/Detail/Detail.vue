@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-03-15 14:02:57
+ * @lastTime: 2020-03-23 23:32:44
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -73,6 +73,7 @@
             v-for="url in artistIllustList"
             :key="url"
             :src="url"
+            fit="cover"
             class="small-img"
             lazy
           >
@@ -140,14 +141,14 @@ export default {
             (data.height / data.width) * document.body.clientWidth
           ),
           src: replaceBigImg(data.imageUrls[0].original),
-          avatarSrc: replaceSmallImg(data.artistPreView.avatar),
+          avatarSrc: replaceBigImg(data.artistPreView.avatar),
           mediumSrc: replaceBigImg(data.imageUrls[0].large),
           createDate: dayjs(data.createDate).format('YYYY-MM-DD HH:mm:ss'),
           setu:
             !!(data.xrestrict === 1 || data.sanityLevel > 6) &&
             this.user.username !== 'pixivic'
         };
-        this.srcList = data.imageUrls.map(e => replaceBigImg(e.original));
+        this.srcList = data.imageUrls.map(e => replaceBigImg(e.large));
         this.getArtistIllust();
       });
     },
@@ -166,7 +167,7 @@ export default {
             } = res;
             this.pictureList = this.pictureList.concat(data);
             this.artistIllustList = this.pictureList.map(item =>
-              replaceSmallImg(item.imageUrls[0].squareMedium)
+              replaceSmallImg(item.imageUrls[0].medium)
             );
           }
         })
@@ -207,11 +208,8 @@ export default {
   }
 }
 .detail {
-  height: calc(~"100vh - 60px");
-  width: calc(~"100vw - 65px");
-  overflow: auto;
   display: flex;
-  background: #f5f5f5;
+  justify-content: center;
   .page-padding {
     padding: 20px;
     display: flex;

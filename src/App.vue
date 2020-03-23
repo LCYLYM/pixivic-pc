@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-03-14 11:06:54
+ * @lastTime: 2020-03-23 23:32:36
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\App.vue
  * @message:
@@ -24,7 +24,7 @@
         </el-header>
         <!-- 标题栏结束 -->
         <!-- 主要页面开始 -->
-        <el-main>
+        <el-main class="window-view">
           <router-view :key="Math.random()" />
         </el-main>
         <!-- 主要页面结束 -->
@@ -57,5 +57,11 @@ export default {
 			padding: 0px;
 		}
 	}
+}
+.window-view{
+  min-height: calc(~"100vh - 60px");
+  width: calc(~"100vw - 65px");
+  overflow: auto;
+  background: #f5f5f5;
 }
 </style>

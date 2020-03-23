@@ -1,12 +1,18 @@
 /*
  * @Author: Dongzy
  * @since: 2020-02-02 14:59:46
- * @lastTime: 2020-03-12 21:54:49
+ * @lastTime: 2020-03-24 01:07:02
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\vue.config.js
  * @message:
  */
 const path = require('path');
+
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// 去console插件
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// gzip压缩插件
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -15,6 +21,7 @@ function resolve(dir) {
 console.log('Url prefix: ', process.env.VUE_APP_PREFIX);
 
 module.exports = {
+  runtimeCompiler: true,
   lintOnSave: false,
   publicPath: process.env.VUE_APP_PREFIX || '/',
   // publicPath: './',
@@ -22,8 +29,12 @@ module.exports = {
   // 路径别名
   chainWebpack: config => {
     config.resolve.alias
-      .set('@', resolve('src')); // key,value自行定义，比如.set('@@', resolve('src/components'))
+      .set('@', resolve('src'))
+      .set('assets', resolve('src/assets'))
+      .set('components', resolve('src/components')); // key,value自行定义，比如.set('@@', resolve('src/components'))
   },
+  // enabled by default if the machine has more than 1 cores
+  parallel: require('os').cpus().length > 1,
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
@@ -31,6 +42,13 @@ module.exports = {
     port: 9000
   },
   css: {
+    // // 启用 CSS modules
+    // requireModuleExtension: false,
+    // // 是否使用css分离插件
+    // extract: false,
+    // // 开启 CSS source maps?
+    // sourceMap: false,
+    // css预设器配置项
     loaderOptions: {
       stylus: {
         'resolve url': true
@@ -38,12 +56,40 @@ module.exports = {
     }
   },
 
-  configureWebpack: {
-    resolve: {
-      alias: {
-        'vue$': 'vue/dist/vue.esm.js' // https://github.com/vuejs/vue-cli/issues/2359
-      }
+  configureWebpack: config => {
+    const devPlugins = [new BundleAnalyzerPlugin()];
+    const plugins = [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          warnings: false,
+          drop_debugger: true,
+          drop_console: true
+        },
+        sourceMap: false,
+        parallel: true
+      }),
+      new CompressionWebpackPlugin({
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: new RegExp(
+          '\\.(' +
+          ['js', 'css'].join('|') +
+          ')$'
+        ),
+        threshold: 10240,
+        minRatio: 0.8
+      })
+    ];
+    config.externals = {
+      vue: 'Vue',
+      // 'vue-router': 'window.VueRouter'
+      'element-ui': 'ElementUI'
+      // 其他三方库 ...
+    };
+    if (process.env.NODE_ENV !== 'development') {
+      config.plugins = [...config.plugins, ...plugins];
+    } else {
+      config.plugins = [...config.plugins, ...devPlugins];
     }
   }
-}
-;
+};

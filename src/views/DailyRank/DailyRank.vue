@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-28 23:11:51
- * @lastTime: 2020-03-15 14:00:49
+ * @lastTime: 2020-03-24 01:11:53
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\DailyRank\DailyRank.vue
  * @message:
@@ -45,12 +45,12 @@
           @change="selectDate"
         />
         <div slot="reference">
-          <img
-            style="height:60px;width:60px;"
-            src="@/assets/images/cat.png"
-            alt="点位调整"
-          >
-        </div> </el-popover></virtual-list>
+          <svg aria-hidden="true" class="icon" font-size="40">
+            <use xlink:href="#picshizhong1" />
+          </svg>
+        </div>
+      </el-popover>
+    </virtual-list>
   </div>
 </template>
 

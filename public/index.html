@@ -1,9 +1,9 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:59:46
- * @lastTime: 2020-03-12 21:47:08
+ * @lastTime: 2020-03-24 01:03:07
  * @LastAuthor: Dongzy
- * @文件相对于项目的路径: \pixiciv-pc\public\index.html
+ * @FilePath: \pixiciv-pc\public\index.html
  * @message: 
  -->
 <!DOCTYPE html>
@@ -24,6 +24,8 @@
   <meta name="x5-page-mode" content="app" />
   <meta name="360-fullscreen" content="true" />
   <link rel="icon" href="<%= BASE_URL %>icon.png">
+  <!-- 导入cdn UIcss -->
+  <link href="https://cdn.bootcss.com/element-ui/2.13.0/theme-chalk/index.css" rel="stylesheet">
   <style type="text/css">
     .icon {
        width: 1em; height: 1em;
@@ -40,6 +42,9 @@
       continue.</strong>
   </noscript>
   <div id="app"></div>
+  <script src="//at.alicdn.com/t/font_1625300_4em8l0cbaqk.js"></script>
+  <script src="https://cdn.bootcss.com/vue/2.6.11/vue.runtime<%= process.env.NODE_ENV === 'production' ? '.min.js' : '.js' %>" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcss.com/element-ui/2.13.0/index.js" crossorigin="anonymous"></script>
   <!-- built files will be auto injected -->
 </body>
 
@@ -62,6 +67,4 @@
     }, false);
 };
 </script>
-<script src="//at.alicdn.com/t/font_1625300_u99uk9kad8s.js"></script>
-
 </html>

@@ -1,7 +1,7 @@
 /*
  * @Author: Dongzy
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-03-12 21:56:31
+ * @lastTime: 2020-03-24 01:07:18
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\main.js
  * @message:
@@ -17,11 +17,11 @@
 import Vue from 'vue';
 import api from './api';
 import App from './App.vue';
-import './plugins/element.js';
-import router from './router';
+import router from './router.js';
 import store from './store/';
 import './styles/reset.less';
 Vue.config.productionTip = false;
+
 router.onError((error) => {
   const pattern = /Loading chunk (\d)+ failed/g;
   const isChunkLoadFailed = error.message.match(pattern);

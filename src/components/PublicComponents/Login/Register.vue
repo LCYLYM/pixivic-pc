@@ -201,7 +201,7 @@ export default {
             this.$store.dispatch('setUser', res.data.data);
             this.$store.dispatch('setLoginBoolean');
           } else {
-            this.$message.close();
+            this.$message.closeAll();
             this.$message.info(res.data.message);
           }
         })

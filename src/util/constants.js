@@ -1,3 +1,11 @@
+/*
+ * @Author: Dongzy
+ * @since: 2020-03-10 22:01:34
+ * @lastTime: 2020-03-18 21:33:34
+ * @LastAuthor: Dongzy
+ * @文件相对于项目的路径: \pixiciv-pc\src\util\constants.js
+ * @message:
+ */
 export const modeData = [
   {
     value: 'zonghe',
@@ -66,3 +74,5 @@ export const COLOR_LIST = [
   '#700045',
   '#690950'
 ];
+
+export const QQ_LINK = 'https://graph.qq.com/oauth2.0/authorize?response_type=token&client_id=101727536&redirect_uri=https://pixivic.com/qqauth';

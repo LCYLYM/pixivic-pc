@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:29:14
- * @lastTime: 2020-03-10 21:33:33
+ * @lastTime: 2020-03-24 00:36:11
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Artist\Artist.vue
  * @message:
@@ -188,7 +188,7 @@ export default {
           .then(res => {})
           .catch(() => {
             this.artistDetail.isFollowed = false;
-            this.$message.close();;
+            this.$message.closeAll();
             this.$message.error('关注失败');
           });
       } else {
@@ -198,7 +198,7 @@ export default {
           .then(res => {})
           .catch(() => {
             this.artistDetail.isFollowed = true;
-            this.$message.close();;
+            this.$message.closeAll();
             this.$message.error('取消关注失败');
           });
       }

@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-24 22:48:37
- * @lastTime: 2020-03-15 23:15:10
+ * @lastTime: 2020-03-23 23:23:05
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\HeaderBar.vue
  * @message:
@@ -15,7 +15,7 @@
       type="flex"
     >
       <el-col>
-        <a href>
+        <a href="/">
           <img alt src="@/assets/images/icon.svg">
         </a>
       </el-col>
@@ -52,29 +52,48 @@
             v-model="userToolVisible"
             placement="bottom"
             title="用户中心"
-            width="200"
+            width="120"
             trigger="manual"
           >
             <div class="user-tools">
-              <el-button>个人中心</el-button>
-              <el-button>推荐画师</el-button>
-              <el-button>我的收藏</el-button>
-              <el-button type="warning" @click="logout">退出登录</el-button>
+              <div style="margin-bottom:20px;">
+                <el-button title="我的收藏" size="small" @click="toBookmarked"><svg font-size="20" class="icon" aria-hidden="true">
+                  <use xlink:href="#picshoucang-copy-copy-copy" />
+                </svg></el-button>
+              </div>
+              <div><el-button title="新热点" size="small"><svg font-size="20" class="icon" aria-hidden="true">
+                <use xlink:href="#picnew13" />
+              </svg></el-button></div>
+              <div>
+                <el-button title="设置" size="small" @click="setModal"><svg font-size="20" class="icon" aria-hidden="true">
+                  <use xlink:href="#picshezhi" />
+                </svg></el-button>
+              </div>
+              <div>
+                <el-button slot="reference" title="退出登录" size="small" @click="logout"><svg font-size="20" class="icon" aria-hidden="true">
+                  <use xlink:href="#piclog_out" />
+                </svg></el-button>
+              </div>
             </div>
-            <el-avatar slot="reference" :src="squareUrl" shape="square" /></el-popover>
+            <el-avatar slot="reference" fit="cover" :src="user.avatar" shape="square" /></el-popover>
         </div>
       </el-col>
     </el-row>
+    <SetDialog v-if="settingVisible" :setting-visible.sync="settingVisible" :user="user" />
   </div>
 </template>
 
 <script>
 import cookieTool from 'js-cookie';
+import { mapGetters } from 'vuex';
 export default {
   name: 'HeaderBar',
-  components: {},
+  components: {
+    SetDialog: () => import('./Setting/index')
+  },
   data() {
     return {
+      settingVisible: false,
       // 用户中心显示
       userToolVisible: false,
       // 搜索时延
@@ -102,7 +121,12 @@ export default {
       ]
     };
   },
-  computed: {},
+  computed: {
+    // 辅助函数取出x内用户信息
+    ...mapGetters([
+      'user'
+    ])
+  },
   watch: {
     'params.keyword': {
       handler: 'getKeywords'
@@ -110,11 +134,25 @@ export default {
   },
   mounted() {},
   methods: {
+    toBookmarked() {
+      this.$router.push({
+        path: '/users/bookmarked'
+      });
+    },
+    // 设置弹窗
+    setModal() {
+      this.settingVisible = !this.settingVisible;
+    },
     // 退出登录
     logout() {
-      cookieTool.remove('jwt');
-      localStorage.removeItem('user');
-      window.location.href = '/';
+      this.$confirm('确认退出？')
+        .then(_ => {
+          this.$message.info('退出登录');
+          cookieTool.remove('jwt');
+          localStorage.removeItem('user');
+          window.location.href = '/';
+        })
+        .catch(_ => {});
     },
     // 获取关键词
     getKeywords() {
@@ -141,8 +179,9 @@ export default {
     // 搜索跳转
     handleSearch() {
       const keyword = this.params.keyword;
+      if (!keyword.trim()) { return; }
       this.$router.push({
-        path: `/tag/${keyword}`,
+        path: `/keywords/${keyword}`,
         query: {
           illustType: this.params.illustType
         }
@@ -191,8 +230,15 @@ export default {
 }
  .user-tools{
     display: flex;
-width: 200px;
 flex-wrap:wrap;
-
+justify-content: space-evenly;
+margin-bottom: 20px;
+.tool{
+  height: 2rem;
+  width: 2rem;
+  border-radius: 2px;
+  border: 1px solid #DCDFE6;
+  text-align: center;
+}
   }
 </style>

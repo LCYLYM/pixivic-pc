@@ -117,12 +117,8 @@ export default {
     },
     handleLike(data) {
       if (!this.user.id) {
-        this.$router.push({
-          name: 'Login',
-          query: {
-            return_to: window.location.href
-          }
-        });
+        this.$message.closeAll();
+        this.$message.info('请先登录');
         return;
       }
       const item = this.listMap.get(data.id);
@@ -137,7 +133,7 @@ export default {
           .then(() => {})
           .catch(() => {
             this.$set(item, 'isLiked', false); // 失败的话在改回去
-            this.$message.close();;
+            this.$message.closeAll();
             this.$message.error('收藏失败');
           });
       } else {
@@ -146,7 +142,7 @@ export default {
           .then(() => {})
           .catch(() => {
             this.$set(item, 'isLiked', true);
-            this.$message.close();;
+            this.$message.closeAll();
             this.$message.error('取消收藏失败');
           });
       }

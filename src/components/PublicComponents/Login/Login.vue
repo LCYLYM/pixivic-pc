@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-03-14 22:38:58
- * @lastTime: 2020-03-15 13:29:08
+ * @lastTime: 2020-03-19 00:31:44
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\Login\Login.vue
  * @message:
@@ -30,12 +30,29 @@
       <el-form-item>
         <el-button @click="$emit('typeChange','')">注册</el-button>
         <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
+        <el-button @click="loginQQ"><svg font-size="14" class="icon" aria-hidden="true">
+          <use xlink:href="#picQQ" />
+        </svg>QQ登录</el-button>
       </el-form-item>
     </el-form>
+    <el-dialog
+      title="QQ登入"
+      :visible.sync="qqDialogVisible"
+      append-to-body="true"
+      width="40%"
+    >
+      <div style="height:460px;">
+        <iframe :src="ifarmUrl" width="100%" height="100%" frameborder="0">
+          您的浏览器不支持iframe，请升级
+        </iframe>
+      </div>
+
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { QQ_LINK } from '@/util/constants';
 export default {
   name: 'Login',
   components: {},
@@ -63,6 +80,10 @@ export default {
       }
     };
     return {
+
+      // QQifarm
+      qqDialogVisible: false,
+      ifarmUrl: '',
       // 验证码数据
       imageBase64: null,
       // 登录数据
@@ -122,6 +143,11 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+    // qq登录
+    loginQQ() {
+      this.qqDialogVisible = true;
+      this.ifarmUrl = QQ_LINK;
+    },
     // 登录
     loginAjax() {
       const reqBody = {
@@ -140,7 +166,7 @@ export default {
             this.$store.dispatch('setLoginBoolean');
             this.$message.success(res.data.message);
           } else {
-            this.$message.close();
+            this.$message.closeAll();
             this.$message.info(res.data.message);
           }
         })

@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-03-23 23:32:44
+ * @lastTime: 2020-03-24 22:01:45
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -66,7 +66,7 @@
           <h2>{{ illustDetail.artistPreView.name }}</h2>
         </section>
         <section style="margin:10px 20px;text-align:center;">
-          <el-button round size="small" type="primary">添加关注</el-button>
+          <el-button round size="small" :disabled="illustDetail.artistPreView.isFollowed" type="primary" @click="followArtist">{{ illustDetail.artistPreView.isFollowed ? '已关注' : '添加关注' }}</el-button>
         </section>
         <section class="artist-preview">
           <el-image
@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { replaceBigImg, replaceSmallImg } from '@/util';
 import dayjs from 'dayjs';
 export default {
@@ -110,7 +111,9 @@ export default {
       artistIllustList: []
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['user', 'likeStatus', 'followStatus', 'detail'])
+  },
   watch: {},
   mounted() {
     this.getIllustDetail();
@@ -120,8 +123,37 @@ export default {
       this.$router.push(`/artist/${this.illustDetail.artistId}`);
     },
     handleLike() {
-      this.isLiked = !this.isLiked;
-      // this.$emit('handleLike', this.column);
+      if (!this.user.id) {
+        this.$router.push({
+          name: 'Login',
+          query: {
+            return_to: window.location.href
+          }
+        });
+        return;
+      }
+      const params = {
+        userId: this.user.id,
+        illustId: this.illustDetail.id,
+        username: this.user.username
+      };
+      if (!this.illustDetail.isLiked) {
+        this.illustDetail.isLiked = true;
+        this.$store.dispatch('handleCollectIllust', params)
+          .then(() => {})
+          .catch(() => {
+            this.illustDetail.isLiked = false;
+            this.$message.info('收藏失败');
+          });
+      } else {
+        this.illustDetail.isLiked = false;
+        this.$store.dispatch('deleteCollectIllust', params)
+          .then(() => {})
+          .catch(() => {
+            this.illustDetail.isLiked = true;
+            this.$message.info('取消收藏失败');
+          });
+      }
     },
     openTag(item) {
       this.$router.push({
@@ -152,6 +184,40 @@ export default {
         this.getArtistIllust();
       });
     },
+    followArtist() {
+      if (!this.user.id) {
+        this.$router.push({
+          name: 'Login',
+          query: {
+            return_to: window.location.href
+          }
+        });
+        return;
+      }
+      const data = {
+        artistId: this.illustDetail.artistPreView.id,
+        userId: this.user.id,
+        username: this.user.username
+      };
+      if (!this.illustDetail.artistPreView.isFollowed) {
+        this.illustDetail.artistPreView.isFollowed = true;
+        this.$store.dispatch('handleFollowArtist', { ...data, follow: true })
+          .then(res => {})
+          .catch(() => {
+            this.illustDetail.artistPreView.isFollowed = false;
+            this.$message.info('关注失败');
+          });
+      } else {
+        this.illustDetail.artistPreView.isFollowed = false;
+        this.$store.dispatch('handleFollowArtist', { ...data, follow: false })
+          .then(res => {})
+          .catch(() => {
+            this.illustDetail.artistPreView.isFollowed = true;
+            this.$message.info('取消关注失败');
+          });
+      }
+    },
+    // 获取画家信息
     getArtistIllust() {
       this.$api.detail
         .reqArtistIllust({

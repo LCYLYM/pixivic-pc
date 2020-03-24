@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:29:14
- * @lastTime: 2020-03-24 00:36:11
+ * @lastTime: 2020-03-24 22:07:56
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Artist\Artist.vue
  * @message:
@@ -12,37 +12,34 @@
       :identifier="identifier"
       :list="pictureList"
       @infinite="infinite"
-    ><dir
-      v-if="artistDetail"
-      class="artist_property"
-    >
+    ><dir v-if="artistDetail" class="artist_property">
       <div class="artist-name">
         <div class="avatar">
-          <img
-            :src="artistDetail.avatarSrc"
-            alt
-          >
+          <img :src="artistDetail.avatarSrc" alt>
         </div>
 
         <div class="name">
           <h2>{{ artistDetail.name }}</h2>
         </div>
-        <div style="margin:10px 0">
+        <div>
           <span style="color: #999;">
             <em style="font-style:normal;color: #5C5C5C;font-weight: bold;">
-              {{
-                artistDetail.totalFollowUsers
-              }}
-            </em>个关注者
+              {{ artistDetail.totalFollowUsers }} </em>个关注者
           </span>
-        </div>
-        <div>
           <el-button
             round
             size="small"
+            :disabled="artistDetail.isFollowed"
             type="primary"
-          >添加关注</el-button>
+            @click="followArtist"
+          >{{ artistDetail.isFollowed ? "已关注" : "添加关注" }}</el-button>
         </div>
+      </div>
+      <div style="margin:10px;text-align:center;disply:flex">
+        <span v-if="artistDetail.region">
+          <i class="el-icon-location-outline icon" />
+          <em>{{ artistDetail.region }}</em>
+        </span>
       </div>
       <div style="margin:10px;text-align:center;disply:flex">
         <i
@@ -55,10 +52,6 @@
           class="el-icon-chat-dot-round icon"
           @click="windowOpen(artistDetail.twitterUrl)"
         />
-        <span v-if="artistDetail.region">
-          <i class="el-icon-location-outline icon" />
-          <em>{{ artistDetail.region }}</em>
-        </span>
         <i class="el-icon-share icon" />
       </div>
       <div class="comment">{{ artistDetail.comment }}</div>
@@ -167,7 +160,7 @@ export default {
       this.pictureList = [];
       this.identifier += 1;
     },
-    follow() {
+    followArtist() {
       if (!this.user.id) {
         this.$router.push({
           name: 'Login',
@@ -179,7 +172,8 @@ export default {
       }
       const data = {
         artistId: this.artistDetail.id,
-        userId: this.user.id
+        userId: this.user.id,
+        username: this.user.username
       };
       if (!this.artistDetail.isFollowed) {
         this.artistDetail.isFollowed = true;
@@ -188,8 +182,7 @@ export default {
           .then(res => {})
           .catch(() => {
             this.artistDetail.isFollowed = false;
-            this.$message.closeAll();
-            this.$message.error('关注失败');
+            this.$message.info('关注失败');
           });
       } else {
         this.artistDetail.isFollowed = false;
@@ -198,8 +191,7 @@ export default {
           .then(res => {})
           .catch(() => {
             this.artistDetail.isFollowed = true;
-            this.$message.closeAll();
-            this.$message.error('取消关注失败');
+            this.$message.info('取消关注失败');
           });
       }
     }
@@ -209,7 +201,7 @@ export default {
 
 <style scoped lang="less">
 .artist {
-  height: calc(~'100vh - 60px');
+  height: calc(~"100vh - 60px");
   overflow: hidden;
   .artist_property {
     margin: 0 auto;

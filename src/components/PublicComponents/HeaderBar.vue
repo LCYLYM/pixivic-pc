@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-24 22:48:37
- * @lastTime: 2020-03-23 23:23:05
+ * @lastTime: 2020-03-29 20:18:27
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\HeaderBar.vue
  * @message:
@@ -30,10 +30,7 @@
           @keyup.enter.native="handleSearch"
           @select="handleSelect"
         >
-          <el-select
-            slot="prepend"
-            v-model="params.illustType"
-          >
+          <el-select slot="prepend" v-model="params.illustType">
             <el-option
               v-for="item of typeList"
               :key="item.value"
@@ -44,42 +41,29 @@
         </el-autocomplete>
       </el-col>
       <el-col class="header-info">
-        <el-badge :value="3">
+        <!-- <el-badge :value="3">
           <el-button size="small">消息</el-button>
-        </el-badge>
+        </el-badge> -->
         <div style="margin-left:20px;" @click="userOpen">
-          <el-popover
-            v-model="userToolVisible"
-            placement="bottom"
-            title="用户中心"
-            width="120"
-            trigger="manual"
-          >
-            <div class="user-tools">
-              <div style="margin-bottom:20px;">
-                <el-button title="我的收藏" size="small" @click="toBookmarked"><svg font-size="20" class="icon" aria-hidden="true">
-                  <use xlink:href="#picshoucang-copy-copy-copy" />
-                </svg></el-button>
-              </div>
-              <div><el-button title="新热点" size="small"><svg font-size="20" class="icon" aria-hidden="true">
-                <use xlink:href="#picnew13" />
-              </svg></el-button></div>
-              <div>
-                <el-button title="设置" size="small" @click="setModal"><svg font-size="20" class="icon" aria-hidden="true">
-                  <use xlink:href="#picshezhi" />
-                </svg></el-button>
-              </div>
-              <div>
-                <el-button slot="reference" title="退出登录" size="small" @click="logout"><svg font-size="20" class="icon" aria-hidden="true">
-                  <use xlink:href="#piclog_out" />
-                </svg></el-button>
-              </div>
-            </div>
-            <el-avatar slot="reference" fit="cover" :src="user.avatar" shape="square" /></el-popover>
+          <el-dropdown trigger="click" @command="clickMenu">
+            <el-avatar fit="cover" :src="user.avatar" shape="square" />
+            <el-dropdown-menu v-if="user.avatar" slot="dropdown">
+              <el-dropdown-item
+                v-for="item of MenuList"
+                :key="item.handler"
+                :divided="item.divided"
+                :command="item.handler"
+              >{{ item.name }}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </el-col>
     </el-row>
-    <SetDialog v-if="settingVisible" :setting-visible.sync="settingVisible" :user="user" />
+    <SetDialog
+      v-if="settingVisible"
+      :setting-visible.sync="settingVisible"
+      :user="user"
+    />
   </div>
 </template>
 
@@ -93,9 +77,28 @@ export default {
   },
   data() {
     return {
+      // 用户中心数据
+      MenuList: [
+        {
+          name: '关注',
+          handler: 'followed'
+        },
+        {
+          name: '收藏',
+          handler: 'bookmarked'
+        },
+        {
+          name: '设置',
+          handler: 'setting'
+        },
+        {
+          name: '退出登录',
+          handler: 'logout',
+          divided: true
+        }
+      ],
+      // 设置控制显示
       settingVisible: false,
-      // 用户中心显示
-      userToolVisible: false,
       // 搜索时延
       timeout: null,
       params: {
@@ -123,9 +126,7 @@ export default {
   },
   computed: {
     // 辅助函数取出x内用户信息
-    ...mapGetters([
-      'user'
-    ])
+    ...mapGetters(['user'])
   },
   watch: {
     'params.keyword': {
@@ -134,6 +135,35 @@ export default {
   },
   mounted() {},
   methods: {
+    clickMenu(type) {
+      switch (type) {
+        case 'followed':
+          this.toFollowed();
+          break;
+        case 'bookmarked':
+          this.toBookmarked();
+          break;
+        case 'setting':
+          this.setModal();
+          break;
+        case 'logout':
+          this.logout();
+          break;
+
+        default:
+          break;
+      }
+    },
+    // 跳转关注页
+    toFollowed() {
+      this.$router.push({
+        path: '/users/followed',
+        query: {
+          userId: this.user.id
+        }
+      });
+    },
+    // 跳转书签页
     toBookmarked() {
       this.$router.push({
         path: '/users/bookmarked'
@@ -179,7 +209,9 @@ export default {
     // 搜索跳转
     handleSearch() {
       const keyword = this.params.keyword;
-      if (!keyword.trim()) { return; }
+      if (!keyword.trim()) {
+        return;
+      }
       this.$router.push({
         path: `/keywords/${keyword}`,
         query: {
@@ -191,13 +223,7 @@ export default {
     userOpen() {
       if (!cookieTool.get('jwt')) {
         this.$store.dispatch('setLoginBoolean');
-      } else {
-        this.turnUserTab();
       }
-    },
-    // 用户看板控制
-    turnUserTab() {
-      this.userToolVisible = !this.userToolVisible;
     }
   }
 };
@@ -226,19 +252,18 @@ export default {
     justify-content: flex-end;
     align-items: center;
   }
-
 }
- .user-tools{
-    display: flex;
-flex-wrap:wrap;
-justify-content: space-evenly;
-margin-bottom: 20px;
-.tool{
-  height: 2rem;
-  width: 2rem;
-  border-radius: 2px;
-  border: 1px solid #DCDFE6;
-  text-align: center;
-}
+.user-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+  .tool {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 2px;
+    border: 1px solid #dcdfe6;
+    text-align: center;
   }
+}
 </style>

@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-03-14 22:38:58
- * @lastTime: 2020-03-19 00:31:44
+ * @lastTime: 2020-03-29 15:37:14
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\Login\Login.vue
  * @message:
@@ -38,7 +38,7 @@
     <el-dialog
       title="QQ登入"
       :visible.sync="qqDialogVisible"
-      append-to-body="true"
+      :append-to-body="true"
       width="40%"
     >
       <div style="height:460px;">

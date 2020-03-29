@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-03-24 22:01:45
+ * @lastTime: 2020-03-29 21:05:02
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -24,9 +24,12 @@
         </figure>
         <div class="detail-content__action">
           <div
-            :class="['like', { 'is-like': isLiked }]"
-            @click.stop="handleLike"
+            :class="['like', { 'is-like': illustDetail.isLiked }]"
+            @click="handleLike"
           />
+          <a v-if="likeUsers" class="users">
+            <el-avatar v-for="item in likeUsers" :key="item.userId" :size="40" :src="`https://pic.cheerfun.dev/${item.userId}.png`" @click="goUsers" />
+          </a>
         </div>
         <figcaption class="detail-content__info">
           <div class="card">
@@ -60,6 +63,7 @@
           </div>
         </figcaption>
       </main>
+      <!-- 作者信息 -->
       <aside class="detail-author">
         <section class="artist-info" @click="goArtistPage">
           <el-avatar :src="illustDetail.avatarSrc" size="medium" />
@@ -70,12 +74,13 @@
         </section>
         <section class="artist-preview">
           <el-image
-            v-for="url in artistIllustList"
-            :key="url"
-            :src="url"
+            v-for="item in pictureList"
+            :key="item.id"
+            :src="item.imageUrls[0].medium | replaceImg"
             fit="cover"
             class="small-img"
             lazy
+            @click.native="goDetail(item)"
           >
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline" />
@@ -94,6 +99,13 @@ import dayjs from 'dayjs';
 export default {
   name: 'Detail',
   components: {},
+  filters: {
+    replaceImg(val) {
+      return (
+        replaceSmallImg(val)
+      );
+    }
+  },
   props: {
     pid: {
       type: String,
@@ -108,17 +120,48 @@ export default {
       isLiked: false,
       type: 'illust',
       pictureList: [],
-      artistIllustList: []
+      likeUsers: []
     };
   },
   computed: {
     ...mapGetters(['user', 'likeStatus', 'followStatus', 'detail'])
   },
-  watch: {},
+  watch: {
+    // 详情去画师那里更改点赞状态 然后后退回来详情 状态也要变
+    likeStatus(val, old) {
+      const { illustId, like } = val;
+      if (illustId === this.illustDetail.id) {
+        this.illustDetail.isLiked = like;
+      }
+    },
+    followStatus(val) {
+      if (val.artistId === this.illustDetail.artistPreView.id) {
+        this.illustDetail.artistPreView.isFollowed = val.follow;
+      }
+    }
+  },
   mounted() {
     this.getIllustDetail();
+    this.bookmarkedUsers();
   },
   methods: {
+    // 跳转到搜藏用户
+    goUsers() {},
+    // 书签用户
+    bookmarkedUsers() {
+      this.$api.detail.bookmarkedUsers({
+        illustId: this.pid,
+        pageSize: 3
+      })
+        .then(res => {
+          this.likeUsers = res.data.data;
+        });
+    },
+    // 跳转详情
+    goDetail(data) {
+      this.$store.dispatch('setDetail', data);
+      this.$router.push(`/illusts/${data.id}`);
+    },
     goArtistPage() {
       this.$router.push(`/artist/${this.illustDetail.artistId}`);
     },
@@ -232,9 +275,6 @@ export default {
               data: { data }
             } = res;
             this.pictureList = this.pictureList.concat(data);
-            this.artistIllustList = this.pictureList.map(item =>
-              replaceSmallImg(item.imageUrls[0].medium)
-            );
           }
         })
         .catch(err => {
@@ -274,6 +314,7 @@ export default {
   }
 }
 .detail {
+  max-height: calc(~"100vh - 60px");
   display: flex;
   justify-content: center;
   .page-padding {
@@ -291,6 +332,10 @@ export default {
       display: flex;
       justify-content: flex-end;
       background: #fff;
+      padding: 0 20px;
+      .users{
+        display: flex;
+      }
       .like {
         width: 80px;
         height: 40px;
@@ -307,7 +352,6 @@ export default {
     &__info {
       padding: 48px 16px;
       display: flex;
-      justify-content: center;
       margin: 0 auto;
       background: #fff;
       .card {

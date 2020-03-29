@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-03-23 23:15:20
- * @lastTime: 2020-03-24 01:18:26
+ * @lastTime: 2020-03-26 23:30:32
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\User\BookMarked\index.vue
  * @message:
@@ -12,8 +12,8 @@
       <keep-alive>
         <VirtualList
           :key="requestType"
-          :list="requestType==='illust'?pictureList1:pictureList2"
           :identifier="identifier"
+          :list="requestType === 'illust' ? pictureList1 : pictureList2"
           @infinite="infinite"
         >
           <div class="bookmarked-tabs" @change="getList">
@@ -21,7 +21,9 @@
               <el-radio-button label="illust" name="插画" />
               <el-radio-button label="manga" name="漫画" />
             </el-radio-group>
-          </div></VirtualList></keep-alive>
+          </div>
+        </VirtualList>
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -30,7 +32,9 @@
 import { mapGetters } from 'vuex';
 export default {
   name: 'BookMarked',
-  components: { VirtualList: () => import('@/components/Virtual-List/VirtualList') },
+  components: {
+    VirtualList: () => import('@/components/Virtual-List/VirtualList')
+  },
   data() {
     return {
       page: 1,
@@ -58,7 +62,9 @@ export default {
           } else {
             if (this.requestType === 'illust') {
               this.pictureList1 = this.pictureList1.concat(res.data.data);
-            } else { this.pictureList2 = this.pictureList2.concat(res.data.data); }
+            } else {
+              this.pictureList2 = this.pictureList2.concat(res.data.data);
+            }
             $state.loaded();
           }
         });
@@ -71,14 +77,13 @@ export default {
 </script>
 
 <style scoped lang="less">
-
-.bookmarked{
-  height: calc(~'100vh - 60px');
+.bookmarked {
+  height: calc(~"100vh - 60px");
   overflow: hidden;
-  &-tabs{
-display: flex;
-justify-content: center;
-margin: 20px;
+  &-tabs {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
   }
 }
 </style>

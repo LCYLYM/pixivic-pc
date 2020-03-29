@@ -1,7 +1,7 @@
 /*
  * @Author: Dongzy
  * @since: 2020-02-02 14:59:46
- * @lastTime: 2020-03-24 01:07:02
+ * @lastTime: 2020-03-28 21:28:07
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\vue.config.js
  * @message:
@@ -81,9 +81,9 @@ module.exports = {
       })
     ];
     config.externals = {
-      vue: 'Vue',
-      // 'vue-router': 'window.VueRouter'
-      'element-ui': 'ElementUI'
+      // vue: 'Vue',
+      // 'vue-router': 'window.VueRouter',
+      // 'element-ui': 'ElementUI'
       // 其他三方库 ...
     };
     if (process.env.NODE_ENV !== 'development') {

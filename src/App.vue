@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-03-23 23:32:36
+ * @lastTime: 2020-03-29 16:32:33
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\App.vue
  * @message:
@@ -19,7 +19,7 @@
       <!-- 左边栏结束 -->
       <el-container>
         <!-- 标题栏开始 -->
-        <el-header style="border-bottom: 1px solid #bbb;">
+        <el-header>
           <header-bar />
         </el-header>
         <!-- 标题栏结束 -->
@@ -62,6 +62,6 @@ export default {
   min-height: calc(~"100vh - 60px");
   width: calc(~"100vw - 65px");
   overflow: auto;
-  background: #f5f5f5;
+  background: #fff;
 }
 </style>

@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 20:20:39
- * @lastTime: 2020-03-15 14:03:39
+ * @lastTime: 2020-03-29 16:32:52
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Note\Note.vue
  * @message:
@@ -138,7 +138,6 @@ export default {
   max-height:calc(~"100vh - 60px");
   width: calc(~"100vw - 65px");
   overflow: auto;
-  background: #f5f5f5;
   .content-list {
     width: 50%;
     margin: 20px auto;

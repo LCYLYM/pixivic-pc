@@ -1,3 +1,11 @@
+/*
+ * @Author: Dongzy
+ * @since: 2020-02-02 14:59:46
+ * @lastTime: 2020-03-29 21:02:14
+ * @LastAuthor: Dongzy
+ * @文件相对于项目的路径: \pixiciv-pc\src\api\modules\detail.js
+ * @message:
+ */
 import axios from '../base';
 
 function getPixById(id) {
@@ -36,8 +44,12 @@ function reqArtist(artistId) {
 // 获取关联画作
 function reqRelatedIllust(param) {
   return axios({
-    url: `https://api.pixivic.com/illusts/${param.illustId}/related?page=${param.page || 1}`,
-    method: 'get'
+    url: `/illusts/${param.illustId}/related`,
+    method: 'get',
+    params: {
+      page: param.page,
+      pageSize: param.pageSize || 30
+    }
   });
 }
 
@@ -49,11 +61,34 @@ function reqSummary(artistId) {
   });
 }
 
+// 查看画作收藏用户列表
+function bookmarkedUsers(params) {
+  return axios({
+    url: `/illusts/${params.illustId}/bookmarkedUsers`,
+    method: 'get',
+    params: {
+      page: params.page || 1,
+      pageSize: params.pageSize || 30
+    }
+  });
+}
+
+// 新增用户查看画作历史记录
+function illustHistory(data) {
+  return axios({
+    url: `/users/${data.userId}/illustHistory`,
+    method: 'post',
+    data
+  });
+}
+
 export {
   getPixById,
   reqArtistIllust,
   reqIllustDetail,
   reqArtist,
   reqRelatedIllust,
-  reqSummary
+  reqSummary,
+  bookmarkedUsers,
+  illustHistory
 };

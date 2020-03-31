@@ -1,8 +1,8 @@
 /*
  * @Author: Dongzy
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-03-28 21:43:42
- * @LastAuthor: Dongzy
+ * @lastTime: 2020-04-01 00:02:12
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\main.js
  * @message:
  */
@@ -22,6 +22,7 @@ import store from './store/';
 import './styles/reset.less';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import { replaceBigImg, replaceSmallImg } from '@/util';
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
@@ -73,6 +74,11 @@ router.onReady(vm => {
     console.log(e);
   }
 });
+Vue.filter('replaceBig', val => replaceBigImg(val));
+Vue.filter('replaceSmall', val => replaceSmallImg(val));
+Vue.filter('replaceAvatar', val => `https://pic.cheerfun.dev/${val}.png`);
+Vue.filter('replaceSquare', val => 'https://img.cheerfun.dev:233/c/360x360_70/img-master' + val.split('img-master')[1]);
+
 Vue.prototype.$api = api;
 new Vue({
   router,

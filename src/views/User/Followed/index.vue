@@ -1,14 +1,14 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-03-26 23:16:26
- * @lastTime: 2020-03-29 20:03:32
- * @LastAuthor: Dongzy
+ * @lastTime: 2020-04-01 00:19:51
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\User\Followed\index.vue
  * @message:
  -->
 <template>
   <div class="followed">
-    <ul class="artist-list">
+    <ul v-infinite-scroll="getFollowArtists" class="artist-list" infinite-scroll-immediate infinite-scroll-distance="10" infinite-scroll-delay="1000">
       <li
         v-for="artistItem in artistList"
         :key="artistItem.id"
@@ -22,7 +22,6 @@
           <div class="desc">{{ artistItem.comment }}</div>
           <div class="followed-button">
             <el-button
-              :disabled="artistItem.isFollowed"
               round
               type="primary"
               @click="follow(artistItem)"
@@ -59,7 +58,7 @@
         </div>
       </li>
     </ul>
-    <div class="pix-page">
+    <!-- <div class="pix-page">
       <el-pagination
         :current-page="page.page"
         background
@@ -67,7 +66,7 @@
         :total="10"
         @current-change="handlePageChange"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -118,9 +117,13 @@ export default {
     },
     // 获取关注列表
     getFollowArtists() {
+      if (this.artistList.length < this.page.page * this.page.pageSize && this.page.page !== 1) {
+        this.$message.info('关注列表已到底');
+        return;
+      }
       this.$api.user
         .getArtists({
-          page: this.page.page,
+          page: this.page.page++,
           pageSize: this.page.pageSize,
           userId: this.userId
         })
@@ -129,11 +132,9 @@ export default {
             data: { data }
           } = res;
           if (!data) {
-            this.$message.info('关注列表为空');
+            this.$message.info('关注列表已到底');
           } else {
-            this.artistList = data;
-            console.log(this.artistList, 'daaa');
-
+            this.artistList = this.artistList.concat(data);
             for (const item of data) {
               this.listMap.set(item.id, item);
             }
@@ -180,6 +181,8 @@ export default {
 
 <style scoped lang="less">
 .followed {
+  max-height: calc(~"100vh - 60px");
+  overflow-y: scroll;
   background: #fff;
   .artist-list {
     max-height: calc(100vh - 100px);

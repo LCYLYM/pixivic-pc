@@ -1,8 +1,8 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-24 22:48:37
- * @lastTime: 2020-03-29 20:18:27
- * @LastAuthor: Dongzy
+ * @lastTime: 2020-04-01 00:03:02
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\HeaderBar.vue
  * @message:
  -->
@@ -46,7 +46,7 @@
         </el-badge> -->
         <div style="margin-left:20px;" @click="userOpen">
           <el-dropdown trigger="click" @command="clickMenu">
-            <el-avatar fit="cover" :src="user.avatar" shape="square" />
+            <el-avatar fit="cover" :src="user.userId | replaceAvatar" shape="square" />
             <el-dropdown-menu v-if="user.avatar" slot="dropdown">
               <el-dropdown-item
                 v-for="item of MenuList"

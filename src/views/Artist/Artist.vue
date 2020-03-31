@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:29:14
- * @lastTime: 2020-03-24 22:07:56
+ * @lastTime: 2020-03-31 22:15:54
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Artist\Artist.vue
  * @message:
@@ -179,7 +179,9 @@ export default {
         this.artistDetail.isFollowed = true;
         this.$store
           .dispatch('handleFollowArtist', { ...data, follow: true })
-          .then(res => {})
+          .then(res => {
+            this.artistDetail.totalFollowUsers++;
+          })
           .catch(() => {
             this.artistDetail.isFollowed = false;
             this.$message.info('关注失败');
@@ -188,7 +190,9 @@ export default {
         this.artistDetail.isFollowed = false;
         this.$store
           .dispatch('handleFollowArtist', { ...data, follow: false })
-          .then(res => {})
+          .then(res => {
+            this.artistDetail.totalFollowUsers--;
+          })
           .catch(() => {
             this.artistDetail.isFollowed = true;
             this.$message.info('取消关注失败');

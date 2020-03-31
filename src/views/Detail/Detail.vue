@@ -1,8 +1,8 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-03-29 21:05:02
- * @LastAuthor: Dongzy
+ * @lastTime: 2020-04-01 00:30:27
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
  -->
@@ -12,11 +12,15 @@
       <main class="detail-content">
         <figure class="detail-content__figure">
           <el-image
+            v-if="illustDetail.xrestrict==0&&illustDetail.sanityLevel<6"
             :preview-src-list="srcList"
             :src="illustDetail.mediumSrc"
             fit="contain"
             style="width:100%;height:80vh;"
           >
+            <div slot="placeholder" class="image-slot">
+              加载中<span class="dot">...</span>
+            </div>
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline" />
             </div>
@@ -25,11 +29,25 @@
         <div class="detail-content__action">
           <div
             :class="['like', { 'is-like': illustDetail.isLiked }]"
-            @click="handleLike"
+            @click="handleLike(illustDetail)"
           />
-          <a v-if="likeUsers" class="users">
-            <el-avatar v-for="item in likeUsers" :key="item.userId" :size="40" :src="`https://pic.cheerfun.dev/${item.userId}.png`" @click="goUsers" />
-          </a>
+          <el-popover
+            placement="top-start"
+            title="标题"
+            width="200"
+            trigger="hover"
+            content="正在施工中"
+          >
+            <a v-if="likeUsers" slot="reference" class="users">
+              <el-avatar
+                v-for="item in likeUsers"
+                :key="item.userId"
+                :size="40"
+                :src="item.userId | replaceAvatar"
+                @click="goUsers"
+              />
+            </a>
+          </el-popover>
         </div>
         <figcaption class="detail-content__info">
           <div class="card">
@@ -62,6 +80,22 @@
             </div>
           </div>
         </figcaption>
+        <figcaption class="detail-content__relate">
+          <h2 class="relate-title">相关作品</h2>
+          <div>
+            <ul v-infinite-scroll="reqRelatedIllust" infinite-scroll-immediate class="relate-info" infinite-scroll-distance="10" infinite-scroll-delay="1000">
+              <li v-for="item in relatedPictureList" :key="item.id">
+                <Item :illust="item" @handleLike="handleLike" />
+              <!-- <el-image :src="url" lazy>
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline" />
+                </div>
+              </el-image> -->
+              </li>
+            </ul>
+          </div>
+
+        </figcaption>
       </main>
       <!-- 作者信息 -->
       <aside class="detail-author">
@@ -70,22 +104,41 @@
           <h2>{{ illustDetail.artistPreView.name }}</h2>
         </section>
         <section style="margin:10px 20px;text-align:center;">
-          <el-button round size="small" :disabled="illustDetail.artistPreView.isFollowed" type="primary" @click="followArtist">{{ illustDetail.artistPreView.isFollowed ? '已关注' : '添加关注' }}</el-button>
+          <el-button
+            round
+            size="small"
+            :disabled="illustDetail.artistPreView.isFollowed"
+            type="primary"
+            @click="followArtist"
+          >{{
+            illustDetail.artistPreView.isFollowed ? "已关注" : "添加关注"
+          }}</el-button>
         </section>
         <section class="artist-preview">
-          <el-image
-            v-for="item in pictureList"
-            :key="item.id"
-            :src="item.imageUrls[0].medium | replaceImg"
-            fit="cover"
-            class="small-img"
-            lazy
-            @click.native="goDetail(item)"
-          >
-            <div slot="error" class="image-slot">
-              <i class="el-icon-picture-outline" />
+          <template v-for="item in pictureList">
+            <el-image
+              v-if="item.xrestrict==0&&item.sanityLevel<6"
+              :key="item.id"
+              :src="item.imageUrls[0].medium | replaceImg"
+              fit="cover"
+              class="small-img"
+              lazy
+              @click.native="goDetail(item)"
+            >
+              <div slot="placeholder" class="image-slot">
+                加载中<span class="dot">...</span>
+              </div>
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline" />
+              </div>
+            </el-image>
+            <div v-else :key="item.id" class="setu-filter">
+              <svg font-size="50" class="icon" aria-hidden="true">
+                <use xlink:href="#picsuo2" />
+              </svg>
             </div>
-          </el-image>
+          </template>
+
         </section>
       </aside>
     </div>
@@ -94,17 +147,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { replaceBigImg, replaceSmallImg } from '@/util';
+import { replaceBigImg } from '@/util';
 import dayjs from 'dayjs';
 export default {
   name: 'Detail',
-  components: {},
-  filters: {
-    replaceImg(val) {
-      return (
-        replaceSmallImg(val)
-      );
-    }
+  components: {
+    Item: () => import('@/components/Virtual-List/MyItem')
   },
   props: {
     pid: {
@@ -114,12 +162,14 @@ export default {
   },
   data() {
     return {
+      page: 1,
       srcList: [],
       illustDetail: null,
       imageList: [],
       isLiked: false,
       type: 'illust',
       pictureList: [],
+      relatedPictureList: [],
       likeUsers: []
     };
   },
@@ -149,10 +199,11 @@ export default {
     goUsers() {},
     // 书签用户
     bookmarkedUsers() {
-      this.$api.detail.bookmarkedUsers({
-        illustId: this.pid,
-        pageSize: 3
-      })
+      this.$api.detail
+        .bookmarkedUsers({
+          illustId: this.pid,
+          pageSize: 3
+        })
         .then(res => {
           this.likeUsers = res.data.data;
         });
@@ -165,36 +216,36 @@ export default {
     goArtistPage() {
       this.$router.push(`/artist/${this.illustDetail.artistId}`);
     },
-    handleLike() {
+    handleLike(data) {
+      this.$message.closeAll();
       if (!this.user.id) {
-        this.$router.push({
-          name: 'Login',
-          query: {
-            return_to: window.location.href
-          }
-        });
+        this.$message.info('请先登录');
         return;
       }
+      const flag = data.isLiked;
+      data.isLiked = !data.isLiked;
       const params = {
         userId: this.user.id,
-        illustId: this.illustDetail.id,
-        username: this.user.username
+        illustId: data.id
       };
-      if (!this.illustDetail.isLiked) {
-        this.illustDetail.isLiked = true;
+      if (!flag) {
         this.$store.dispatch('handleCollectIllust', params)
-          .then(() => {})
-          .catch(() => {
-            this.illustDetail.isLiked = false;
-            this.$message.info('收藏失败');
+          .then(e => {
+            this.$message.success(e.data.message);
+          })
+          .catch(e => {
+            data.isLiked = !data.isLiked;
+            this.$message.error(e.data.message);
           });
       } else {
-        this.illustDetail.isLiked = false;
         this.$store.dispatch('deleteCollectIllust', params)
-          .then(() => {})
-          .catch(() => {
-            this.illustDetail.isLiked = true;
-            this.$message.info('取消收藏失败');
+          .then(e => {
+            this.$message.success(e.data.message);
+          }
+          )
+          .catch(e => {
+            data.isLiked = !data.isLiked;
+            this.$message.error(e.data.message);
           });
       }
     },
@@ -244,7 +295,8 @@ export default {
       };
       if (!this.illustDetail.artistPreView.isFollowed) {
         this.illustDetail.artistPreView.isFollowed = true;
-        this.$store.dispatch('handleFollowArtist', { ...data, follow: true })
+        this.$store
+          .dispatch('handleFollowArtist', { ...data, follow: true })
           .then(res => {})
           .catch(() => {
             this.illustDetail.artistPreView.isFollowed = false;
@@ -252,7 +304,8 @@ export default {
           });
       } else {
         this.illustDetail.artistPreView.isFollowed = false;
-        this.$store.dispatch('handleFollowArtist', { ...data, follow: false })
+        this.$store
+          .dispatch('handleFollowArtist', { ...data, follow: false })
           .then(res => {})
           .catch(() => {
             this.illustDetail.artistPreView.isFollowed = true;
@@ -281,7 +334,7 @@ export default {
           console.error(err);
         });
     },
-    infinite($state) {
+    reqRelatedIllust() {
       this.$api.detail
         .reqRelatedIllust({
           page: this.page++,
@@ -289,10 +342,11 @@ export default {
         })
         .then(res => {
           if (!res.data.data) {
-            $state.complete();
+            this.$message.info('到底了');
           } else {
-            this.pictureList = this.pictureList.concat(res.data.data);
-            $state.loaded();
+            this.relatedPictureList = this.relatedPictureList.concat(
+              res.data.data
+            );
           }
         })
         .catch(err => {
@@ -333,7 +387,7 @@ export default {
       justify-content: flex-end;
       background: #fff;
       padding: 0 20px;
-      .users{
+      .users {
         display: flex;
       }
       .like {
@@ -407,6 +461,27 @@ export default {
           font-size: 12px;
           line-height: 1;
         }
+      }
+    }
+    &__relate {
+      padding: 0px 16px;
+      .relate-title {
+        font-size: 20px;
+        line-height: 28px;
+        color: rgba(0, 0, 0, 0.64);
+        margin: 0px;
+      }
+      .relate-info {
+        list-style: none;
+        display: grid;
+        gap: 24px;
+        flex-wrap: wrap;
+        grid-template-columns: repeat(auto-fit, 184px);
+        -webkit-box-pack: center;
+        justify-content: flex-start;
+        margin: 0px;
+        margin-bottom: 20px;
+        padding: 0px;
       }
     }
   }

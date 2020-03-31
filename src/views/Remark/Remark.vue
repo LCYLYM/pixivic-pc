@@ -1,8 +1,8 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:30:03
- * @lastTime: 2020-03-23 23:33:22
- * @LastAuthor: Dongzy
+ * @lastTime: 2020-04-01 00:05:27
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Remark\Remark.vue
  * @message:
  -->
@@ -66,6 +66,7 @@ export default {
 .Remark {
   display: flex;
   justify-content: center;
+  height: calc(~"100vh - 60px");
   align-items: center;
   .friend-card {
     width: 480px;

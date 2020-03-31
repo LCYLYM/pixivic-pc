@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 20:20:39
- * @lastTime: 2020-03-29 16:32:52
+ * @lastTime: 2020-03-31 23:01:15
  * @LastAuthor: Dongzy
  * @FilePath: \pixiciv-pc\src\views\Note\Note.vue
  * @message:
@@ -51,7 +51,7 @@ export default {
   components: {},
   data() {
     return {
-      activeNames: [0, 1, 2, 3, 4, 5, 6],
+      activeNames: [0],
       // 相关信息
       noteInfo: [
         {

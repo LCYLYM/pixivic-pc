@@ -1,8 +1,8 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:30:17
- * @lastTime: 2020-03-13 20:32:02
- * @LastAuthor: Dongzy
+ * @lastTime: 2020-04-01 00:06:29
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Donate\Donate.vue
  * @message:
  -->
@@ -46,6 +46,8 @@ export default {
 <style scoped lang="less">
 .Donate {
     display: flex;
+    height: calc(~"100vh - 60px");
+    align-items: center;
     .donate-card {
         height: 300px;
         width: 200px;

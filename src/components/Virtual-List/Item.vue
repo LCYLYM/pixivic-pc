@@ -1,19 +1,38 @@
 <template>
-  <div class="item" @click="goDetail">
-    <div class="item-content" :style="column.style">
+  <div
+    class="item"
+    @click="goDetail"
+  >
+    <div
+      :style="column.style"
+      class="item-content"
+    >
       <img
         :src="column.src"
         :style="{opacity}"
         @load="handleLoad"
       >
       <div class="img-filter" />
-      <div v-if="column.pageCount > 1" class="count">
+      <div
+        v-if="column.pageCount > 1"
+        class="count"
+      >
         <img src="../../assets/images/count.svg">
         <span>{{ column.pageCount }}</span>
       </div>
-      <Like :like="column.isLiked" @handleLike="handleLike" />
-      <div v-if="column.setu" class="setu-filter">
-        <svg font-size="50" class="icon" aria-hidden="true">
+      <Like
+        :like="column.isLiked"
+        @handleLike="handleLike"
+      />
+      <div
+        v-if="column.setu"
+        class="setu-filter"
+      >
+        <svg
+          aria-hidden="true"
+          class="icon"
+          font-size="50"
+        >
           <use xlink:href="#picsuo2" />
         </svg>
       </div>
@@ -62,69 +81,89 @@ export default {
 </script>
 
 <style lang="stylus" scope>
-no-wrap()
-  text-overflow: ellipsis
-  overflow: hidden
-  white-space: nowrap
-.item
-  box-sizing border-box
-  position absolute
-  top 0
-  left 0
-  width 100%
-  height 100%
-  padding 8px
-  padding-bottom 16px
-  overflow hidden
-  &:hover
-    img
-      transform scale(1.3)
-  .item-content
-    position relative
-    width 100%
-    height 100%
-    border-radius 16px
-    overflow hidden
-    img
-      width 100%
-      height 100%
-      transition opacity .3s, transform .3s ease
-      object-fit cover
-      border-radius 16px
-    .img-filter
-      position absolute
-      top 0
-      right 0
-      bottom 0
-      left 0
-      background rgba(0, 0, 0, .03)
-      border-radius 8px
-  .count
-    position absolute
-    display inline-block
-    top 8px
-    right 8px
-    color white
-    background-color #0000009e
-    padding 2px
-    border-radius 4px
-    img
-      float left
-      fill white
-      height 20px
-      width 20px
-    span
-      float right
-      padding 0 2px
-      line-height 20px
-  .setu-filter
-    position absolute
-    top 0
-    right 0
-    bottom 0
-    left 0
-    width 50px
-    height 50px
-    margin auto
-    z-index 2
+no-wrap() {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.item {
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  padding-bottom: 16px;
+  overflow: hidden;
+
+  &:hover {
+    img {
+      transform: scale(1.3);
+    }
+  }
+
+  .item-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      transition: opacity 0.3s, transform 0.3s ease;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    .img-filter {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 8px;
+    }
+  }
+
+  .count {
+    position: absolute;
+    display: inline-block;
+    top: 8px;
+    right: 8px;
+    color: white;
+    background-color: #0000009e;
+    padding: 2px;
+    border-radius: 4px;
+
+    img {
+      float: left;
+      fill: white;
+      height: 20px;
+      width: 20px;
+    }
+
+    span {
+      float: right;
+      padding: 0 2px;
+      line-height: 20px;
+    }
+  }
+
+  .setu-filter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    z-index: 2;
+  }
+}
 </style>

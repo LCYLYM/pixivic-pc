@@ -201,6 +201,30 @@ function getArtists(data) {
   });
 }
 
+// 用户查看近期画作历史记录
+function getRecentHistory(data) {
+  return axios({
+    url: `/users/${data.userId}/illustHistory`,
+    method: 'get',
+    params: {
+      page: data.page,
+      pageSize: data.pageSize || 30
+    }
+  });
+}
+
+// 用户查看早期画作历史记录
+function getOldHistory(data) {
+  return axios({
+    url: `/users/${data.userId}/oldIllustHistory`,
+    method: 'get',
+    params: {
+      page: data.page,
+      pageSize: data.pageSize || 30
+    }
+  });
+}
+
 export {
   verificationCode,
   register,
@@ -223,5 +247,7 @@ export {
   checkQQ,
   getUsers,
   getFollowers,
-  getArtists
+  getArtists,
+  getRecentHistory,
+  getOldHistory
 };

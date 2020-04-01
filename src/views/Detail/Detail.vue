@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-04-01 22:13:08
+ * @lastTime: 2020-04-01 22:31:18
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -146,7 +146,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { replaceBigImg } from '@/util';
+import { replaceBigImg, replaceSmallImg } from '@/util';
 import dayjs from 'dayjs';
 export default {
   name: 'Detail',
@@ -198,6 +198,21 @@ export default {
     this.bookmarkedUsers();
   },
   methods: {
+    handleData(data) {
+      this.getArtistIllust(data.artistId);
+      return {
+        ...data,
+        itemHeight: data.itemHeight || parseInt((data.height / data.width) * document.body.clientWidth),
+        originalSrc: data.originalSrc || replaceBigImg(data.imageUrls[0].original),
+        src: data.src || replaceSmallImg(data.imageUrls[0].medium),
+        avatarSrc: data.avatarSrc || replaceBigImg(data.artistPreView.avatar),
+        createDate: dayjs(data.createDate).format('YYYY-MM-DD'),
+        setu: data.setu || !!((data.xrestrict === 1 || data.sanityLevel > 5)) && this.user.username !== 'pixivic',
+        imgs: data.imgs || data.imageUrls.reduce((pre, cur) => {
+          return pre.concat(replaceBigImg(cur.original));
+        }, [])
+      };
+    },
     // 跳转到搜藏用户
     goUsers() {},
     // 书签用户
@@ -264,21 +279,8 @@ export default {
     getIllustDetail() {
       this.$api.detail.reqIllustDetail(this.pid).then(res => {
         const data = res.data.data;
-        this.illustDetail = {
-          ...data,
-          itemHeight: parseInt(
-            (data.height / data.width) * document.body.clientWidth
-          ),
-          src: replaceBigImg(data.imageUrls[0].original),
-          avatarSrc: replaceBigImg(data.artistPreView.avatar),
-          mediumSrc: replaceBigImg(data.imageUrls[0].large),
-          createDate: dayjs(data.createDate).format('YYYY-MM-DD HH:mm:ss'),
-          setu:
-            !!(data.xrestrict === 1 || data.sanityLevel > 6) &&
-            this.user.username !== 'pixivic'
-        };
+        this.illustDetail = this.handleData(data);
         this.srcList = data.imageUrls.map(e => replaceBigImg(e.large));
-        this.getArtistIllust();
       });
     },
     followArtist() {
@@ -317,11 +319,11 @@ export default {
       }
     },
     // 获取画家信息
-    getArtistIllust() {
+    getArtistIllust(artistId) {
       this.$api.detail
         .reqArtistIllust({
           page: 1,
-          artistId: this.illustDetail.artistPreView.id,
+          artistId: artistId,
           type: this.type,
           pageSize: 10
         })

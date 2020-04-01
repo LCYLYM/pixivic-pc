@@ -1,8 +1,8 @@
 /*
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-02-02 14:59:46
  * @lastTime: 2020-03-29 21:02:14
- * @LastAuthor: Dongzy
+ * @LastAuthor: gooing
  * @文件相对于项目的路径: \pixiciv-pc\src\api\modules\detail.js
  * @message:
  */

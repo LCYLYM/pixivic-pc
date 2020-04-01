@@ -1,7 +1,7 @@
 <!--
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-01-24 22:48:37
- * @lastTime: 2020-04-01 00:03:02
+ * @lastTime: 2020-04-01 22:58:44
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\HeaderBar.vue
  * @message:
@@ -47,13 +47,15 @@
         <div style="margin-left:20px;" @click="userOpen">
           <el-dropdown trigger="click" @command="clickMenu">
             <el-avatar fit="cover" :src="user.userId | replaceAvatar" shape="square" />
-            <el-dropdown-menu v-if="user.avatar" slot="dropdown">
-              <el-dropdown-item
-                v-for="item of MenuList"
-                :key="item.handler"
-                :divided="item.divided"
-                :command="item.handler"
-              >{{ item.name }}</el-dropdown-item>
+            <el-dropdown-menu slot="dropdown">
+              <template v-if="user.avatar">
+                <el-dropdown-item
+                  v-for="item of MenuList"
+                  :key="item.handler"
+                  :divided="item.divided"
+                  :command="item.handler"
+                >{{ item.name }}</el-dropdown-item>
+              </template>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -179,7 +181,7 @@ export default {
         .then(_ => {
           this.$message.info('退出登录');
           cookieTool.remove('jwt');
-          localStorage.removeItem('user');
+          this.$store.dispatch('clearCurrentState');
           window.location.href = '/';
         })
         .catch(_ => {});

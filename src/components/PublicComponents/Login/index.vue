@@ -1,8 +1,8 @@
 <!--
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-03-13 22:45:40
  * @lastTime: 2020-03-15 13:25:06
- * @LastAuthor: Dongzy
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\Login\index.vue
  * @message:
  -->

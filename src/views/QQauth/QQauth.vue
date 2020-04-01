@@ -1,8 +1,8 @@
 <!--
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-03-19 00:33:52
  * @lastTime: 2020-03-19 22:19:58
- * @LastAuthor: Dongzy
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\QQauth\QQauth.vue
  * @message:
  -->

@@ -1,8 +1,8 @@
 <!--
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-03-23 15:01:37
  * @lastTime: 2020-03-23 17:18:08
- * @LastAuthor: Dongzy
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\spot-light\SpotLightIndex\index.vue
  * @message:
  -->

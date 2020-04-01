@@ -1,8 +1,8 @@
 /*
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-02-02 14:59:46
  * @lastTime: 2020-03-14 11:39:52
- * @LastAuthor: Dongzy
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\store\mutations.js
  * @message:
  */

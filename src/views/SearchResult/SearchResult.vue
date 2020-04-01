@@ -1,8 +1,8 @@
 <!--
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-02-11 12:45:23
  * @lastTime: 2020-03-19 22:32:29
- * @LastAuthor: Dongzy
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\SearchResult\SearchResult.vue
  * @message:
  -->

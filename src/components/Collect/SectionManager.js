@@ -1,8 +1,8 @@
 /*
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-02-02 14:59:46
  * @lastTime: 2020-03-02 10:39:58
- * @LastAuthor: Dongzy
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\components\Collect\SectionManager.js
  * @message:
  */

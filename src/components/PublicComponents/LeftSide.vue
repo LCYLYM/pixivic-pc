@@ -1,7 +1,7 @@
 <!--
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-01-24 22:48:57
- * @lastTime: 2020-04-01 22:07:57
+ * @lastTime: 2020-04-01 23:17:41
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\LeftSide.vue
  * @message:
@@ -24,6 +24,9 @@
         <span slot="title">{{ item.name }}</span>
       </el-menu-item>
     </el-menu>
+    <a href="http://www.beian.miit.gov.cn/" target="_blank" style="text-decoration:none;color:#C0C4CC;">
+      <div class="beian">桂ICP备17012945号-3</div>
+    </a>
   </div>
 </template>
 
@@ -94,5 +97,14 @@ export default {
 
 <style scoped lang="less">
 .LeftSide {
+  overflow: hidden;
+  .beian{
+    width: 15px;
+    margin: 400px auto 0;
+    line-height: 24px;
+    font-size: 12px;
+    word-wrap: break-word;/*英文的时候需要加上这句，自动换行*/
+    word-break:break-all;
+  }
 }
 </style>

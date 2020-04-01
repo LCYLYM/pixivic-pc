@@ -1,7 +1,7 @@
 <!--
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-04-01 22:31:18
+ * @lastTime: 2020-04-01 23:02:55
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -131,7 +131,7 @@
                 <i class="el-icon-picture-outline" />
               </div>
             </el-image>
-            <div v-else :key="item.id" class="setu-filter image-slot">
+            <div v-else :key="item.id" class="small-img image-slot">
               <svg font-size="50" class="icon" aria-hidden="true">
                 <use xlink:href="#picsuo2" />
               </svg>

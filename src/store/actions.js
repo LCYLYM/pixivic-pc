@@ -97,3 +97,6 @@ export const setDetail = ({
 }, data) => {
   commit(types.SET_DETAIL, data);
 };
+export const setLoginBoolean = ({ commit }) => {
+  commit(types.SET_Login_Boolean);
+};

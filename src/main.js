@@ -1,5 +1,5 @@
 /*
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-01-26 11:47:00
  * @lastTime: 2020-04-01 00:02:12
  * @LastAuthor: gooing
@@ -7,10 +7,10 @@
  * @message:
  */
 /*
- * @Author: Dongzy
+ * @Author: gooing
  * @since: 2020-01-24 15:59:31
  * @lastTime     : 2020-01-26 10:20:04
- * @LastAuthor   : Dongzy
+ * @LastAuthor   : gooing
  * @文件相对于项目的路径: \pixivic-pc\src\main.js
  * @message:
  */

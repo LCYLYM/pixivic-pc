@@ -1,8 +1,8 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-28 23:11:51
- * @lastTime: 2020-03-24 01:11:53
- * @LastAuthor: Dongzy
+ * @lastTime: 2020-04-01 22:05:09
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\DailyRank\DailyRank.vue
  * @message:
  -->
@@ -71,17 +71,17 @@ export default {
             { name: '日', value: 'day' },
             { name: '周', value: 'week' },
             { name: '月', value: 'month' },
-            { name: '女性', value: 'day_female' },
-            { name: '男性', value: 'day_male' }
+            { name: '女性', value: 'female' },
+            { name: '男性', value: 'male' }
           ]
         },
         {
           name: '漫画排行',
           children: [
-            { name: '日', value: 'day_manga' },
-            { name: '周', value: 'week_manga' },
-            { name: '月', value: 'month_manga' },
-            { name: '一周新秀', value: 'week_rookie_manga' }
+            { text: '日排行', value: 'day_manga' },
+            { text: '周排行', value: 'week_manga' },
+            { text: '月排行', value: 'month_manga' },
+            { text: '新秀周排行', value: 'week_rookie_manga' }
           ]
         }
       ],

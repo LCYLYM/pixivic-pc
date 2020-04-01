@@ -1,8 +1,8 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-11 12:29:14
- * @lastTime: 2020-03-31 22:15:54
- * @LastAuthor: Dongzy
+ * @lastTime: 2020-04-01 22:03:36
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Artist\Artist.vue
  * @message:
  -->
@@ -29,7 +29,6 @@
           <el-button
             round
             size="small"
-            :disabled="artistDetail.isFollowed"
             type="primary"
             @click="followArtist"
           >{{ artistDetail.isFollowed ? "已关注" : "添加关注" }}</el-button>

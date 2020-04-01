@@ -1,7 +1,7 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-04-01 00:30:27
+ * @lastTime: 2020-04-01 22:13:08
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -107,7 +107,6 @@
           <el-button
             round
             size="small"
-            :disabled="illustDetail.artistPreView.isFollowed"
             type="primary"
             @click="followArtist"
           >{{
@@ -119,7 +118,7 @@
             <el-image
               v-if="item.xrestrict==0&&item.sanityLevel<6"
               :key="item.id"
-              :src="item.imageUrls[0].medium | replaceImg"
+              :src="item.imageUrls[0].medium | replaceSmall"
               fit="cover"
               class="small-img"
               lazy
@@ -132,7 +131,7 @@
                 <i class="el-icon-picture-outline" />
               </div>
             </el-image>
-            <div v-else :key="item.id" class="setu-filter">
+            <div v-else :key="item.id" class="setu-filter image-slot">
               <svg font-size="50" class="icon" aria-hidden="true">
                 <use xlink:href="#picsuo2" />
               </svg>
@@ -191,7 +190,11 @@ export default {
     }
   },
   mounted() {
-    this.getIllustDetail();
+    if (this.detail) {
+      this.illustDetail = this.handleData(JSON.parse(JSON.stringify(this.detail)));
+    } else {
+      this.getIllustDetail();
+    }
     this.bookmarkedUsers();
   },
   methods: {

@@ -1,8 +1,8 @@
 <!--
  * @Author: Dongzy
  * @since: 2020-01-24 22:48:57
- * @lastTime: 2020-03-11 00:28:31
- * @LastAuthor: Dongzy
+ * @lastTime: 2020-04-01 22:07:57
+ * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\LeftSide.vue
  * @message:
  -->
@@ -49,7 +49,7 @@ export default {
         },
         {
           id: '2',
-          name: '论坛',
+          name: '反馈',
           icon: 'el-icon-chat-round',
           routePath: '/bbs'
         },

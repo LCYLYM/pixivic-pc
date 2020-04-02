@@ -74,6 +74,13 @@ router.onReady(vm => {
     console.log(e);
   }
 });
+Vue.filter('dateFormat', val => {
+  const time = new Date(val);
+  const y = time.getFullYear();
+  const m = time.getMonth() + 1;
+  const d = time.getDate();
+  return `${y}-${m < 10 ? '0' + m : m}-${d < 10 ? '0' + d : d}`;
+});
 Vue.filter('replaceBig', val => replaceBigImg(val));
 Vue.filter('replaceSmall', val => replaceSmallImg(val));
 Vue.filter('replaceAvatar', val => `https://pic.cheerfun.dev/${val}.png`);

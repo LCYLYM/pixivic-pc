@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-04-02 17:27:44
+ * @lastTime: 2020-04-02 21:36:08
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -80,13 +80,16 @@
             </div>
           </div>
         </figcaption>
+        <figcaption class="detail-content__comment">
+          <!-- <Comment :comments="comments" /> -->
+        </figcaption>
         <figcaption class="detail-content__relate">
           <h2 class="relate-title">相关作品</h2>
           <div>
             <ul v-infinite-scroll="reqRelatedIllust" infinite-scroll-immediate class="relate-info" infinite-scroll-distance="10" infinite-scroll-delay="1000">
               <li v-for="item in relatedPictureList" :key="item.id">
                 <Item :illust="item" @handleLike="handleLike" />
-              <!-- <el-image :src="url" lazy>
+                <!-- <el-image :src="url" lazy>
                 <div slot="error" class="image-slot">
                   <i class="el-icon-picture-outline" />
                 </div>
@@ -149,11 +152,13 @@ import { mapGetters } from 'vuex';
 import { replaceBigImg, replaceSmallImg } from '@/util';
 import dayjs from 'dayjs';
 import Item from '@/components/Virtual-List/MyItem';
+import Comment from '@/components/PublicComponents/Comment';
 
 export default {
   name: 'Detail',
   components: {
-    Item
+    Item,
+    Comment
   },
   props: {
     pid: {
@@ -163,6 +168,55 @@ export default {
   },
   data() {
     return {
+      comments: [
+        {
+          id: 'comment0001', // 主键id
+          date: '2018-07-05 08:30', // 评论时间
+          ownerId: 'talents100020', // 文章的id
+          fromId: 'errhefe232213', // 评论者id
+          fromName: '犀利的评论家', // 评论者昵称
+          fromAvatar: 'http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg', // 评论者头像
+          likeNum: 3, // 点赞人数
+          content: '非常靠谱的程序员', // 评论内容
+          reply: [ // 回复，或子评论
+            {
+              id: '34523244545', // 主键id
+              commentId: 'comment0001', // 父评论id，即父亲的id
+              fromId: 'observer223432', // 评论者id
+              fromName: '夕阳红', // 评论者昵称
+              fromAvatar: 'https://wx4.sinaimg.cn/mw690/69e273f8gy1ft1541dmb7j215o0qv7wh.jpg', // 评论者头像
+              toId: 'errhefe232213', // 被评论者id
+              toName: '犀利的评论家', // 被评论者昵称
+              toAvatar: 'http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg', // 被评论者头像
+              content: '赞同，很靠谱，水平很高', // 评论内容
+              date: '2018-07-05 08:35' // 评论时间
+            },
+            {
+              id: '34523244545',
+              commentId: 'comment0001',
+              fromId: 'observer567422',
+              fromName: '清晨一缕阳光',
+              fromAvatar: 'http://imgsrc.baidu.com/imgad/pic/item/c2fdfc039245d688fcba1b80aec27d1ed21b245d.jpg',
+              toId: 'observer223432',
+              toName: '夕阳红',
+              toAvatar: 'https://wx4.sinaimg.cn/mw690/69e273f8gy1ft1541dmb7j215o0qv7wh.jpg',
+              content: '大神一个！',
+              date: '2018-07-05 08:50'
+            }
+          ]
+        },
+        {
+          id: 'comment0002',
+          date: '2018-07-05 08:30',
+          ownerId: 'talents100020',
+          fromId: 'errhefe232213',
+          fromName: '毒蛇郭德纲',
+          fromAvatar: 'http://ww1.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2q2p8pj30v90uzmzz.jpg',
+          likeNum: 0,
+          content: '从没见过这么优秀的人',
+          reply: []
+        }
+      ],
       page: 1,
       srcList: [],
       illustDetail: null,
@@ -202,6 +256,7 @@ export default {
   methods: {
     handleData(data) {
       this.getArtistIllust(data.artistId);
+      this.srcList = data.imageUrls.map(e => replaceBigImg(e.original)) || [];
       return {
         ...data,
         itemHeight: data.itemHeight || parseInt((data.height / data.width) * document.body.clientWidth),
@@ -282,7 +337,6 @@ export default {
       this.$api.detail.reqIllustDetail(this.pid).then(res => {
         const data = res.data.data;
         this.illustDetail = this.handleData(data);
-        this.srcList = data.imageUrls.map(e => replaceBigImg(e.large));
       });
     },
     followArtist() {
@@ -405,7 +459,10 @@ export default {
         animation: heart 0.8s steps(28);
       }
     }
-
+  &__comment{
+      padding: 48px 16px;
+     margin: 0 auto;
+    }
     &__info {
       padding: 48px 16px;
       display: flex;

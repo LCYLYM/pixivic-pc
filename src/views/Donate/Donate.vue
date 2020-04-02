@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-02-11 12:30:17
- * @lastTime: 2020-04-01 00:06:29
+ * @lastTime: 2020-04-02 21:13:13
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Donate\Donate.vue
  * @message:
@@ -10,7 +10,7 @@
   <div class="Donate">
     <el-card class="donate-card">
       <div slot="header">
-        <span>微信</span>
+        <span>支付宝</span>
       </div>
       <img
         alt="支付宝"
@@ -19,7 +19,7 @@
     </el-card>
     <el-card class="donate-card">
       <div slot="header">
-        <span>支付宝</span>
+        <span>微信</span>
       </div>
       <img
         alt="微信"

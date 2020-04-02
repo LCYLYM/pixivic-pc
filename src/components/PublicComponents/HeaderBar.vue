@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-01-24 22:48:37
- * @lastTime: 2020-04-01 22:58:44
+ * @lastTime: 2020-04-02 21:19:45
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\HeaderBar.vue
  * @message:
@@ -45,10 +45,10 @@
           <el-button size="small">消息</el-button>
         </el-badge> -->
         <div style="margin-left:20px;" @click="userOpen">
-          <el-dropdown trigger="click" @command="clickMenu">
-            <el-avatar fit="cover" :src="user.userId | replaceAvatar" shape="square" />
+          <el-dropdown v-if="user.id" trigger="click" :disabled="!user.id" @command="clickMenu">
+            <el-avatar fit="cover" :src="user.id ? `https://pic.cheerfun.dev/${user.id}.png?t=${new Date().getTime()}` : ''" shape="square" />
             <el-dropdown-menu slot="dropdown">
-              <template v-if="user.avatar">
+              <template>
                 <el-dropdown-item
                   v-for="item of MenuList"
                   :key="item.handler"
@@ -58,6 +58,7 @@
               </template>
             </el-dropdown-menu>
           </el-dropdown>
+          <el-avatar v-else icon="el-icon-user-solid" fit="cover" shape="square" />
         </div>
       </el-col>
     </el-row>

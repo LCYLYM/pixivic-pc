@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-03-30 22:38:24
- * @lastTime: 2020-04-02 17:12:24
+ * @lastTime: 2020-04-02 17:26:36
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\components\Virtual-List\MyItem.vue
  * @message:
@@ -11,7 +11,7 @@
     <div class="my-item-content" :style="{height:size+'px',width:size+'px'}" @click="goDetail">
       <el-image
         v-if="illust.xrestrict==0&&illust.sanityLevel<6"
-        :src="illust.src | replaceSmall"
+        :src="illust.imageUrls[0].medium | replaceSmall"
         fit="cover"
         :style="{height:size+'px',width:size+'px'}"
       >

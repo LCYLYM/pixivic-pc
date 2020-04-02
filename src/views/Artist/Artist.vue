@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-02-11 12:29:14
- * @lastTime: 2020-04-01 22:03:36
+ * @lastTime: 2020-04-02 10:37:15
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Artist\Artist.vue
  * @message:
@@ -161,16 +161,12 @@ export default {
     },
     followArtist() {
       if (!this.user.id) {
-        this.$router.push({
-          name: 'Login',
-          query: {
-            return_to: window.location.href
-          }
-        });
+        this.$message.info('请先登录');
+        this.$store.dispatch('setLoginBoolean');
         return;
       }
       const data = {
-        artistId: this.artistDetail.id,
+        artistId: this.artistId,
         userId: this.user.id,
         username: this.user.username
       };

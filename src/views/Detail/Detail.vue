@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-04-01 23:02:55
+ * @lastTime: 2020-04-02 10:35:27
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -285,12 +285,8 @@ export default {
     },
     followArtist() {
       if (!this.user.id) {
-        this.$router.push({
-          name: 'Login',
-          query: {
-            return_to: window.location.href
-          }
-        });
+        this.$message.info('请先登录');
+        this.$store.dispatch('setLoginBoolean');
         return;
       }
       const data = {

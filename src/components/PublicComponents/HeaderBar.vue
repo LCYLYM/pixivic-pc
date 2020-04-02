@@ -72,10 +72,11 @@
 <script>
 import cookieTool from 'js-cookie';
 import { mapGetters } from 'vuex';
+import SetDialog from './Setting/index';
 export default {
   name: 'HeaderBar',
   components: {
-    SetDialog: () => import('./Setting/index')
+    SetDialog
   },
   data() {
     return {

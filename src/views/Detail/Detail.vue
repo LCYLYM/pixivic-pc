@@ -148,10 +148,12 @@
 import { mapGetters } from 'vuex';
 import { replaceBigImg, replaceSmallImg } from '@/util';
 import dayjs from 'dayjs';
+import Item from '@/components/Virtual-List/MyItem';
+
 export default {
   name: 'Detail',
   components: {
-    Item: () => import('@/components/Virtual-List/MyItem')
+    Item
   },
   props: {
     pid: {

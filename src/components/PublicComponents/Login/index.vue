@@ -25,11 +25,14 @@
 </template>
 
 <script>
+import LoginForm from './Login';
+import RegisterForm from './Register';
+
 export default {
   name: 'Login',
   components: {
-    LoginForm: () => import('./Login'),
-    RegisterForm: () => import('./Register')
+    LoginForm,
+    RegisterForm
   },
   data() {
     return {

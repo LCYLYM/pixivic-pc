@@ -56,10 +56,12 @@
 
 <script>
 import dayjs from 'dayjs';
+import VirtualList from '@/components/Virtual-List/VirtualList';
+
 export default {
   name: 'DailyRank',
   components: {
-    VirtualList: () => import('@/components/Virtual-List/VirtualList')
+    VirtualList
   },
   data() {
     return {

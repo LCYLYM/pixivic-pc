@@ -6,23 +6,24 @@
  * @FilePath: \pixiciv-pc\src\views\User\index.js
  * @message:
  */
+import BookMarked from './BookMarked/index.vue';
+import Followed from './Followed/index.vue';
+import HomePage from './HomePage/index.vue';
+
 export default [
   {
     path: '/users/bookmarked',
     name: 'BookMarked',
-    component: () =>
-      import('./BookMarked/index.vue')
+    component: BookMarked
   },
   {
     path: '/users/followed',
     name: 'Followed',
-    component: () =>
-      import('./Followed/index.vue')
+    component: HomePage
   },
   {
     path: '/users/HomePage',
     name: 'HomePage',
-    component: () =>
-      import('./HomePage/index.vue')
+    component: HomePage
   }
 ];

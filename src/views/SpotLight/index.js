@@ -6,11 +6,11 @@
  * @FilePath: \pixiciv-pc\src\views\spot-light\index.js
  * @message:
  */
+import component from './SpotLightIndex/index.vue';
 export default [
   {
     path: '/spot-light/index',
     name: 'spot-light-index',
-    component: () =>
-      import('./SpotLightIndex/index.vue')
+    component
   }
 ];

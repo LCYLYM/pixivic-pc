@@ -17,10 +17,12 @@
 </template>
 
 <script>
+import VirtualList from '@/components/Virtual-List/VirtualList';
+
 export default {
   name: 'SearchResult',
   components: {
-    VirtualList: () => import('@/components/Virtual-List/VirtualList')
+    VirtualList
   },
   props: {
     keyword: {

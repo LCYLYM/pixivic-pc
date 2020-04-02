@@ -62,10 +62,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import { replaceBigImg } from '@/util';
+import VirtualList from '@/components/Virtual-List/VirtualList';
 export default {
   name: 'Artist',
   components: {
-    VirtualList: () => import('@/components/Virtual-List/VirtualList')
+    VirtualList
   },
   props: {
     artistId: {

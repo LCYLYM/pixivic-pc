@@ -30,10 +30,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import VirtualList from '@/components/Virtual-List/VirtualList';
 export default {
   name: 'BookMarked',
   components: {
-    VirtualList: () => import('@/components/Virtual-List/VirtualList')
+    VirtualList
   },
   data() {
     return {

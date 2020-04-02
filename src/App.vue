@@ -10,10 +10,7 @@
   <div id="app">
     <el-container class="page-container">
       <!-- 左边栏开始 -->
-      <el-aside
-        style="background-color: rgb(238, 241, 246)"
-        width="65px"
-      >
+      <el-aside style="background-color: rgb(238, 241, 246)" width="65px">
         <left-side />
       </el-aside>
       <!-- 左边栏结束 -->
@@ -35,12 +32,16 @@
 </template>
 
 <script>
+import HeaderBar from './components/PublicComponents/HeaderBar.vue';
+import LeftSide from'./components/PublicComponents/LeftSide.vue';
+import Login from './components/PublicComponents/Login/index.vue';
+
 export default {
   name: 'App',
   components: {
-    HeaderBar: () => import('./components/PublicComponents/HeaderBar.vue'),
-    LeftSide: () => import('./components/PublicComponents/LeftSide.vue'),
-    Login: () => import('./components/PublicComponents/Login/index.vue')
+    HeaderBar,
+    LeftSide,
+    Login
   },
   data() {
     return {
@@ -52,13 +53,13 @@ export default {
 
 <style lang="less">
 #app {
-	.page-container {
-		/deep/ .el-main {
-			padding: 0px;
-		}
-	}
+  .page-container {
+    /deep/ .el-main {
+      padding: 0px;
+    }
+  }
 }
-.window-view{
+.window-view {
   min-height: calc(~"100vh - 60px");
   width: calc(~"100vw - 65px");
   overflow: auto;

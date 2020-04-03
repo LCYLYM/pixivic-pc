@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-01-24 22:48:37
- * @lastTime: 2020-04-02 21:19:45
+ * @lastTime: 2020-04-03 10:06:36
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\components\PublicComponents\HeaderBar.vue
  * @message:
@@ -30,7 +30,7 @@
           @keyup.enter.native="handleSearch"
           @select="handleSelect"
         >
-          <el-select slot="prepend" v-model="params.illustType">
+          <el-select slot="prepend" v-model="params.illustType" @change="handleSelect">
             <el-option
               v-for="item of typeList"
               :key="item.value"
@@ -208,6 +208,8 @@ export default {
     },
     // 选择
     handleSelect(e) {
+      console.log('##########');
+
       this.handleSearch();
     },
     // 搜索跳转

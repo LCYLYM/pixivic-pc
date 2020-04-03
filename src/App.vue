@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-03-29 16:32:33
+ * @lastTime: 2020-04-03 12:03:02
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\App.vue
  * @message:
@@ -22,7 +22,9 @@
         <!-- 标题栏结束 -->
         <!-- 主要页面开始 -->
         <el-main class="window-view">
-          <router-view :key="Math.random()" />
+          <vue-page-stack>
+            <router-view :key="key" />
+          </vue-page-stack>
         </el-main>
         <!-- 主要页面结束 -->
       </el-container>
@@ -33,7 +35,7 @@
 
 <script>
 import HeaderBar from './components/PublicComponents/HeaderBar.vue';
-import LeftSide from'./components/PublicComponents/LeftSide.vue';
+import LeftSide from './components/PublicComponents/LeftSide.vue';
 import Login from './components/PublicComponents/Login/index.vue';
 
 export default {
@@ -47,6 +49,11 @@ export default {
     return {
 
     };
+  },
+  computed: {
+    key() {
+      return this.$route.fullPath;
+    }
   }
 };
 </script>

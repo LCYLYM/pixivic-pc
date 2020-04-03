@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-02-11 12:45:23
- * @lastTime: 2020-03-19 22:32:29
+ * @lastTime: 2020-04-03 11:59:00
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\SearchResult\SearchResult.vue
  * @message:
@@ -12,17 +12,19 @@
       :identifier="identifier"
       :list="pictureList"
       @infinite="infinite"
-    />
+    >
+      <Tags :data="[...tags, ...exclusive]" @handleClick="clickTag" /></virtual-list>
   </div>
 </template>
 
 <script>
 import VirtualList from '@/components/Virtual-List/VirtualList';
-
+import Tags from '@/components/PublicComponents/Tags';
 export default {
   name: 'SearchResult',
   components: {
-    VirtualList
+    VirtualList,
+    Tags
   },
   props: {
     keyword: {
@@ -46,13 +48,45 @@ export default {
       endDate: null, // 画作发布日期限制
       xRestrict: 0,
       maxSanityLevel: 6,
-      page: 1
+      page: 1,
+      tags: [],
+      exclusive: []
     };
   },
   computed: {},
   watch: {},
-  mounted() {},
+  mounted() {
+    this.getTags();
+    this.getExclusive();
+  },
   methods: {
+    getTags(param) {
+      this.$api.search
+        .getTags(param)
+        .then(res => {
+          this.tags = res.data.data || [];
+        });
+    },
+    getExclusive(param) {
+      this.$api.search
+        .getExclusive(param)
+        .then(res => {
+          this.exclusive = res.data.data || [];
+        });
+    },
+    clickTag(val) {
+      this.getTags(val.keyword);
+      this.getExclusive(val.keyword);
+      // this.page = 1;
+      // this.pictureList = [];
+      // this.identifier += 1;
+      this.$router.push({
+        path: `/keywords/${val.keyword}`,
+        query: {
+          illustType: this.$route.query.illustType || this.illustType
+        }
+      });
+    },
     optionsParams() {
       const data = {
         illustType: this.$route.query.illustType || this.illustType,
@@ -77,7 +111,7 @@ export default {
       }
       this.$api.search
         .getSearch({
-          ...this.optionsParams,
+          ...this.optionsParams(),
           page: this.page++,
           keyword: this.keyword
         })

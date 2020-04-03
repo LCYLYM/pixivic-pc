@@ -1,19 +1,24 @@
+<!--
+ * @Author: gooing
+ * @since: 2020-02-02 14:59:46
+ * @lastTime: 2020-04-03 09:39:34
+ * @LastAuthor: gooing
+ * @FilePath: \pixiciv-pc\README.md
+ * @message:
+ -->
+
 # pixivic-pc
 
-## Project setup
+## 项目启动
+
 ```
-npm install
+git clone ，npm install，npm run serve，npm run build 一把梭
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 项目功能
 
-### Compiles and minifies for production
-```
-npm run build
-```
+自己探索
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## bug
+
+探索，然后挂 issue

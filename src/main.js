@@ -1,7 +1,7 @@
 /*
  * @Author: gooing
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-04-01 00:02:12
+ * @lastTime: 2020-04-03 09:32:34
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\main.js
  * @message:
@@ -21,7 +21,7 @@ import router from './router.js';
 import store from './store/';
 import './styles/reset.less';
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+// import 'element-ui/lib/theme-chalk/index.css';
 import { replaceBigImg, replaceSmallImg } from '@/util';
 Vue.config.productionTip = false;
 

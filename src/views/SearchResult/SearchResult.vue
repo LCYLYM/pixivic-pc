@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-02-11 12:45:23
- * @lastTime: 2020-04-03 11:59:00
+ * @lastTime: 2020-04-03 12:20:44
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\SearchResult\SearchResult.vue
  * @message:
@@ -56,8 +56,8 @@ export default {
   computed: {},
   watch: {},
   mounted() {
-    this.getTags();
-    this.getExclusive();
+    this.getTags(this.keyword);
+    this.getExclusive(this.keyword);
   },
   methods: {
     getTags(param) {

@@ -1,7 +1,7 @@
 /*
  * @Author: gooing
  * @since: 2020-01-26 11:47:00
- * @lastTime: 2020-04-03 09:32:34
+ * @lastTime: 2020-04-03 09:50:42
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\main.js
  * @message:
@@ -20,12 +20,16 @@ import App from './App.vue';
 import router from './router.js';
 import store from './store/';
 import './styles/reset.less';
+import VueGtag from 'vue-gtag';
 import ElementUI from 'element-ui';
 // import 'element-ui/lib/theme-chalk/index.css';
 import { replaceBigImg, replaceSmallImg } from '@/util';
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
+Vue.use(VueGtag, {
+  config: { id: 'UA-158701012-1' }
+});
 router.onError((error) => {
   const pattern = /Loading chunk (\d)+ failed/g;
   const isChunkLoadFailed = error.message.match(pattern);

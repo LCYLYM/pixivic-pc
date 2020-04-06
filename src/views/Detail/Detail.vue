@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-04-03 00:36:07
+ * @lastTime: 2020-04-06 19:35:49
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -292,7 +292,7 @@ export default {
     },
     openTag(item) {
       this.$router.push({
-        path: `/tag/${item.name}`,
+        path: `/keywords/${item.name}`,
         query: {
           illustType: this.type
         }

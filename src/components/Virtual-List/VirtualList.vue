@@ -78,7 +78,7 @@ export default {
           if (val.length === 0) {
             this.columnHeight = new Array(this.column).fill(0);
           } else {
-            const list = val.filter(e => !old.includes(e));
+            const list = val.filter(e => !old.includes(e) && e.xrestrict === 0 && e.sanityLevel <= 6);
             this.handleList(list);
           }
         } catch (error) {
@@ -184,7 +184,7 @@ export default {
           tmp['height'] = height;
           tmp['width'] = width;
           tmp['src'] = replaceSmallImg(tmp.imageUrls[0].medium);
-          tmp['setu'] = !!((tmp.xrestrict === 1 || tmp.sanityLevel > 5)) && this.user.username !== 'pixivic';
+          tmp['setu'] = !!((tmp.xrestrict === 1 || tmp.sanityLevel > 6)) && this.user.username !== 'pixivic';
           tmp['style'] = {
             backgroundColor: randomColor()
           };

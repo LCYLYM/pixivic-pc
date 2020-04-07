@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-02-02 14:52:15
- * @lastTime: 2020-04-07 14:08:45
+ * @lastTime: 2020-04-07 23:32:35
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\Detail\Detail.vue
  * @message:
@@ -216,7 +216,7 @@ export default {
     // 处理图片数据
     handleData(data) {
       this.getArtistIllust(data.artistId);
-      this.srcList = data.imageUrls.filter(item => item.xrestrict !== 1 && item.sanityLevel <= 6).map(e => replaceBigImg(e.original)) || [];
+      this.srcList = data.imageUrls.map(e => replaceBigImg(e.original)) || [];
       return {
         ...data,
         itemHeight: data.itemHeight || parseInt((data.height / data.width) * document.body.clientWidth),
@@ -286,8 +286,9 @@ export default {
     },
     openTag(item) {
       this.$router.push({
-        path: `/keywords/${item.name}`,
+        path: `/keywords`,
         query: {
+          tag: item.name,
           illustType: this.type
         }
       });
@@ -344,7 +345,7 @@ export default {
             const {
               data: { data }
             } = res;
-            this.pictureList = this.pictureList.concat(data);
+            this.pictureList = this.pictureList.concat(data).filter(item => item.xrestrict === 0 && item.sanityLevel < 6);
           }
         })
         .catch(err => {

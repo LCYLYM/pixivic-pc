@@ -1,7 +1,7 @@
 <!--
  * @Author: gooing
  * @since: 2020-03-26 23:16:26
- * @lastTime: 2020-04-07 14:05:48
+ * @lastTime: 2020-04-07 23:28:44
  * @LastAuthor: gooing
  * @FilePath: \pixiciv-pc\src\views\User\Followed\index.vue
  * @message:
@@ -31,7 +31,7 @@
         <div class="picture">
           <ul class="picture-array">
             <li
-              v-for="(item, index) in artistItem.recentlyIllustrations.filter(item => item.xrestrict === 0 && item.sanityLevel <= 6)"
+              v-for="(item, index) in artistItem.recentlyIllustrations.filter(item => item.xrestrict === 0 && item.sanityLevel < 6)"
               :key="index"
               class="picture-item"
               @click="goDetail(item)"
